@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>إبداعات هندسية — Engineering 540 | من قناة معلومات إلى منصة معرفة هندسية وعقارية</title>
+<meta name="description" content="المنظومة التحريرية والتشغيلية الكاملة لقناة إبداعات هندسية: 6 محاور، 320 موضوعاً موثقاً، 19 سلسلة، خطة إنتاج 90 يوماً، نماذج محتوى فعلي، نظام تحقق صارم، وسلسلة مكة تبني. إعداد: عبدالمجيد الفقيه — مهندس مدني.">
+<meta name="author" content="عبدالمجيد الفقيه — مهندس مدني">
+<meta property="og:title" content="إبداعات هندسية — Engineering 540">
+<meta property="og:description" content="منصة معرفة هندسية وعقارية سعودية: 320 موضوعاً موثقاً، 19 سلسلة، خطة 90 يوماً، وسلسلة مكة تبني.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1C2E4A;--navy2:#13203A;--orange:#E87722;--orange2:#f08c3f;--bg:#f5f7fa;--card:#fff;--line:#e3e8ef;--txt:#243044;--muted:#64748b;--ok:#0e9f6e;--warn:#b45309}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:'Cairo',system-ui,'Segoe UI',sans-serif;background:var(--bg);color:var(--txt);line-height:1.9}
+a{color:var(--navy)}
+/* header */
+header{position:sticky;top:0;z-index:50;background:linear-gradient(90deg,var(--navy2),var(--navy));color:#fff;box-shadow:0 2px 10px rgba(16,24,40,.18)}
+.hwrap{max-width:1150px;margin:0 auto;display:flex;align-items:center;gap:14px;padding:10px 18px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;white-space:nowrap}
+.brand .logo{width:38px;height:38px;border-radius:10px;background:var(--orange);display:flex;align-items:center;justify-content:center;font-size:1.15em}
+.brand .t{font-size:1.02em;line-height:1.25}
+.brand .s{display:block;font-size:.6em;font-weight:600;opacity:.85}
+nav.top{margin-inline-start:auto;display:flex;gap:4px;flex-wrap:wrap}
+nav.top a{color:#fff;text-decoration:none;font-size:.85em;padding:6px 11px;border-radius:8px;opacity:.92}
+nav.top a:hover{background:rgba(255,255,255,.13);opacity:1}
+nav.top a.cta{background:var(--orange);font-weight:800}
+/* hero */
+.hero{background:radial-gradient(1200px 500px at 85% -10%,rgba(232,119,34,.28),transparent 60%),linear-gradient(160deg,var(--navy2) 10%,var(--navy) 65%,#24405f);color:#fff;padding:64px 18px 70px;text-align:center}
+.hero .inner{max-width:880px;margin:0 auto}
+.badge{display:inline-block;background:rgba(232,119,34,.16);border:1px solid rgba(232,119,34,.5);color:#ffd9b3;font-size:.78em;font-weight:700;padding:5px 14px;border-radius:99px;margin-bottom:18px}
+.hero h1{font-size:clamp(1.9em,4.5vw,3em);margin:0 0 10px;font-weight:900}
+.hero h1 .em{color:var(--orange2)}
+.hero p.sub{font-size:clamp(1em,2vw,1.18em);opacity:.94;margin:0 auto 8px;max-width:720px}
+.slogan{font-size:1.02em;font-weight:800;color:#ffd9b3;margin:14px 0 26px}
+.ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-block;text-decoration:none;font-weight:800;font-size:.95em;padding:11px 26px;border-radius:12px;transition:.2s}
+.btn.o{background:var(--orange);color:#fff}
+.btn.o:hover{background:#d96a15;transform:translateY(-1px)}
+.btn.g{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.35)}
+.btn.g:hover{background:rgba(255,255,255,.2)}
+.meta{margin-top:26px;font-size:.8em;opacity:.75}
+/* sections */
+section{padding:56px 18px}
+.wrap{max-width:1150px;margin:0 auto}
+.sec-head{text-align:center;max-width:760px;margin:0 auto 34px}
+.sec-head .k{color:var(--orange);font-weight:800;font-size:.85em;letter-spacing:.5px}
+.sec-head h2{color:var(--navy);font-size:clamp(1.4em,3vw,1.9em);margin:4px 0 8px;font-weight:900}
+.sec-head p{color:var(--muted);margin:0;font-size:.95em}
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 10px;text-align:center;box-shadow:0 1px 3px rgba(16,24,40,.06)}
+.stat b{display:block;font-size:1.75em;color:var(--navy);font-weight:900}
+.stat span{font-size:.82em;color:var(--muted);font-weight:600}
+/* transform */
+.tr{display:grid;grid-template-columns:1fr 46px 1fr;gap:14px;align-items:stretch;max-width:980px;margin:0 auto}
+.tr .col{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px}
+.tr .col h3{margin:0 0 12px;font-size:1em;color:var(--navy)}
+.tr .col ul{margin:0;padding-inline-start:18px;font-size:.9em}
+.tr .col li{margin-bottom:8px}
+.tr .col.after{border-color:rgba(232,119,34,.5);background:linear-gradient(180deg,#fff,#fff8f2)}
+.tr .arrow{display:flex;align-items:center;justify-content:center;font-size:1.6em;color:var(--orange);font-weight:900}
+/* pillars */
+.pillars{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.pillar{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 22px;position:relative;overflow:hidden;transition:.2s}
+.pillar:hover{transform:translateY(-3px);box-shadow:0 8px 22px rgba(16,24,40,.1)}
+.pillar::before{content:"";position:absolute;inset-inline-start:0;top:0;bottom:0;width:5px;background:var(--orange)}
+.pillar h3{margin:0 0 4px;color:var(--navy);font-size:1.05em}
+.pillar .w{font-size:.78em;color:var(--orange);font-weight:800}
+.pillar p{margin:8px 0 0;font-size:.87em;color:var(--muted)}
+.pillar .n{position:absolute;inset-inline-end:14px;top:12px;background:#eef2f7;color:var(--navy);border-radius:9px;font-size:.72em;font-weight:800;padding:3px 9px}
+/* series */
+.ser-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:10px}
+.ser{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:10px;font-size:.9em;font-weight:700;color:var(--navy)}
+.ser .c{margin-inline-start:auto;background:#fff1e6;color:#c05a10;border-radius:99px;font-size:.72em;font-weight:800;padding:2px 9px;min-width:34px;text-align:center}
+.ser-group-title{color:var(--navy);font-weight:800;margin:22px 0 10px;font-size:.95em}
+.ser-group-title small{color:var(--muted);font-weight:600}
+/* explorer */
+#explorer{background:linear-gradient(180deg,#eef2f7,#f5f7fa)}
+.filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-bottom:12px}
+.filters select,.filters input{padding:10px 12px;border:1px solid var(--line);border-radius:11px;font-family:inherit;font-size:.88em;background:#fff;color:var(--txt)}
+.filters input{grid-column:span 2}
+.tcount{font-size:.85em;color:var(--muted);margin-bottom:12px}
+.tlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:12px}
+.tcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;cursor:pointer;transition:.15s}
+.tcard:hover{border-color:var(--orange)}
+.tcard .top{display:flex;gap:8px;align-items:flex-start;margin-bottom:6px}
+.tcard .id{background:var(--navy);color:#fff;font-size:.68em;font-weight:800;border-radius:7px;padding:2px 8px;white-space:nowrap}
+.tcard h4{margin:0;font-size:.92em;color:var(--navy);line-height:1.6}
+.tcard .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.tag{font-size:.68em;font-weight:800;border-radius:99px;padding:2px 9px;background:#eef2f7;color:var(--navy)}
+.tag.p1{background:#fdeae0;color:#c05a10}
+.tag.mk{background:#e5f3ef;color:#0e7a5f}
+.tag.ser{background:#eef0fb;color:#3b4a9f}
+.tcard .more{display:none;margin-top:10px;border-top:1px dashed var(--line);padding-top:10px;font-size:.82em}
+.tcard.open .more{display:block}
+.tcard .more b{color:var(--navy)}
+.tcard .more p{margin:3px 0 8px}
+.morebtn{display:block;margin:18px auto 0;background:var(--navy);color:#fff;border:0;font-family:inherit;font-weight:800;border-radius:11px;padding:10px 26px;cursor:pointer;font-size:.9em}
+.morebtn:hover{background:var(--navy2)}
+/* plan */
+.phases{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-bottom:26px}
+.phase{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 22px}
+.phase .ph{display:inline-block;background:var(--orange);color:#fff;font-size:.75em;font-weight:800;border-radius:99px;padding:3px 12px;margin-bottom:10px}
+.phase h3{margin:0 0 8px;color:var(--navy);font-size:1.02em}
+.phase ul{margin:0;padding-inline-start:18px;font-size:.87em}
+.rhythm{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.rhythm table{width:100%;border-collapse:collapse;font-size:.85em}
+.rhythm th,.rhythm td{padding:9px 13px;text-align:right;border-bottom:1px solid var(--line)}
+.rhythm th{background:#eef2f7;color:var(--navy)}
+.rhythm tr:last-child td{border:0}
+.rhythm .rest{color:#b91c1c;font-weight:700}
+.conv{margin-top:26px;background:var(--navy);color:#fff;border-radius:16px;padding:22px;text-align:center}
+.conv .row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;align-items:center}
+.conv .box{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:11px;padding:8px 14px;font-size:.82em;font-weight:700}
+.conv .ar{color:var(--orange2);font-weight:900}
+.conv p{font-size:.85em;opacity:.85;margin:12px 0 0}
+/* samples */
+.samples{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:16px}
+.sample{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 22px}
+.sample .st{font-size:.72em;font-weight:800;color:var(--orange);margin-bottom:6px}
+.sample h3{margin:0 0 10px;color:var(--navy);font-size:1.02em}
+.sample .ex{font-size:.85em;border-inline-start:4px solid var(--orange);background:#fff8f2;border-radius:10px;padding:12px 14px;margin-bottom:10px}
+.sample .ex i{color:var(--muted);font-size:.85em}
+.sample ul{margin:0;padding-inline-start:18px;font-size:.84em}
+/* makkah */
+#makkah{background:linear-gradient(160deg,var(--navy2),var(--navy));color:#fff}
+#makkah .sec-head h2{color:#fff}
+#makkah .sec-head p{color:#c3cede}
+.mfacts{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+.mfact{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);border-radius:14px;padding:14px 16px;font-size:.88em}
+.mfact b{color:#ffd9b3}
+.mfact .src{display:block;margin-top:6px;font-size:.74em;color:#9fb0c6}
+.vtag{display:inline-block;font-size:.68em;font-weight:800;border-radius:99px;padding:2px 9px;margin-inline-start:6px}
+.vtag.h{background:#123f33;color:#7ee2b8}
+.vtag.s{background:#3a2f14;color:#ffd98a}
+.vtag.n{background:#3a1a1a;color:#ff9d9d}
+.mnote{margin-top:16px;background:rgba(232,119,34,.12);border:1px solid rgba(232,119,34,.4);border-radius:12px;padding:12px 16px;font-size:.84em}
+/* verify */
+.verify{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-bottom:18px}
+.vcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center}
+.vcard .vt{font-weight:900;font-size:1em;border-radius:10px;padding:6px 0;margin-bottom:8px}
+.vcard p{margin:0;font-size:.82em;color:var(--muted)}
+.vrule{background:#fff8f2;border:1px solid rgba(232,119,34,.45);border-radius:14px;padding:14px 18px;text-align:center;font-weight:700;color:var(--navy)}
+/* kpi */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-bottom:16px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.kpi .bar{height:9px;background:#eef2f7;border-radius:99px;overflow:hidden;margin:8px 0 6px}
+.kpi .fill{height:100%;background:linear-gradient(90deg,var(--orange),#f5a45f);border-radius:99px}
+.kpi h4{margin:0;color:var(--navy);font-size:.95em;display:flex;justify-content:space-between}
+.kpi p{margin:0;font-size:.8em;color:var(--muted)}
+.ktargets{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;font-size:.85em}
+.ktargets b{color:var(--navy)}
+/* docs */
+.docs{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+.doc{display:flex;gap:10px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px 14px;text-decoration:none;font-size:.86em;font-weight:700;color:var(--navy);transition:.15s}
+.doc:hover{border-color:var(--orange);transform:translateY(-2px)}
+.doc .ic{font-size:1.2em}
+.doc small{display:block;color:var(--muted);font-weight:600;font-size:.8em}
+/* footer */
+footer{background:var(--navy2);color:#c3cede;padding:34px 18px;text-align:center;font-size:.85em}
+footer .fbrand{font-weight:900;color:#fff;font-size:1.15em;margin-bottom:6px}
+footer a{color:#ffd9b3;text-decoration:none;font-weight:700}
+footer .flinks{margin:12px 0;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+@media(max-width:820px){
+  nav.top{display:none}
+  .tr{grid-template-columns:1fr}
+  .tr .arrow{transform:rotate(90deg);padding:2px 0}
+  .filters input{grid-column:span 1}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hwrap">
+    <div class="brand"><span class="logo">🏗️</span><span class="t">إبداعات هندسية<span class="s">Engineering 540 · صناعة الأثر لا مجرد الإنجاز</span></span></div>
+    <nav class="top">
+      <a href="#pillars">المحاور</a>
+      <a href="#series">السلاسل</a>
+      <a href="#explorer">قاعدة الموضوعات</a>
+      <a href="#plan">خطة 90 يوماً</a>
+      <a href="#makkah">مكة تبني</a>
+      <a href="#docs">الوثائق</a>
+      <a class="cta" href="https://t.me/engineering540" target="_blank">القناة على تيليجرام ↗</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="inner">
+    <span class="badge">المنظومة التحريرية والتشغيلية الكاملة · 2026-11-07</span>
+    <h1>من قناة معلومات هندسية<br>إلى <span class="em">منصة معرفة هندسية وعقارية سعودية</span></h1>
+    <p class="sub">الخارطة الكاملة لتحويل قناة «إبداعات هندسية» إلى مرجع أصيل: إنتاج تحليلي موثق المصادر، سلاسل تحريرية منتظمة، توزيع ذكي على ست منصات، ومسار تجاري أخلاقي محدد الحدود.</p>
+    <div class="slogan">«صناعة الأثر لا مجرد الإنجاز»</div>
+    <div class="ctas">
+      <a class="btn o" href="#explorer">استعرض قاعدة الـ320 موضوعاً</a>
+      <a class="btn g" href="https://t.me/engineering540" target="_blank">انضم إلى القناة</a>
+      <a class="btn g" href="#docs">الوثائق الكاملة</a>
+    </div>
+    <div class="meta">إعداد: عبدالمجيد الفقيه — مهندس مدني · القناة: @engineering540 · التواصل: @Eng540</div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="stats" id="stats"></div>
+  </div>
+</section>
+
+<section style="padding-top:10px">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="k">التحول</span>
+      <h2>قبل المنظومة وبعدها</h2>
+      <p>الفرق ليس في «مزيد من المنشورات» — بل في تغيير جذر لنوع المحتوى ومنهجيته وأثره.</p>
+    </div>
+    <div class="tr">
+      <div class="col">
+        <h3>📑 الوضع السائد</h3>
+        <ul>
+          <li>نقل وتجميع أخبار ومشاريع بلا سياق</li>
+          <li>محتوى عام متشابه مع عشرات القنوات</li>
+          <li>مصادر بلا تواريخ ولا وسوم تحقق</li>
+          <li>لا علاقة قابلة للقياس ولا مسار تجاري</li>
+        </ul>
+      </div>
+      <div class="arrow">←</div>
+      <div class="col after">
+        <h3>🏗️ الوضع الهدف</h3>
+        <ul>
+          <li>إنتاج تحليلي أصلي يغيّر قرار القارئ</li>
+          <li>عناوين محددة: «7 نقاط افحصها قبل صب سقف» لا «نصائح هندسية»</li>
+          <li>كل رقم بمصدره الرسمي وتاريخ إعلانه</li>
+          <li>جمهور ← علاقات ← إشارات اهتمام ← تحويل أخلاقي</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="pillars">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="k">المحاور الستة</span>
+      <h2>بنية المحتوى الكاملة</h2>
+      <p>ستة محاور بأوزان مدروسة تغطي المهندس والمقاول والمالك والمستثمر — كل محور بشجرة تصنيفات خاصة.</p>
+    </div>
+    <div class="pillars" id="pillarsGrid"></div>
+  </div>
+</section>
+
+<section id="series" style="background:#eef2f7">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="k">مكتبة السلاسل</span>
+      <h2>19 سلسلة تحريرية بإيقاع أسبوعي</h2>
+      <p>اثنتا عشرة سلسلة أصلية مطوّرة، وسبع سلاسل مساندة مضافة — لكل سلسلة وعد واضح وجمهور محدد وقالب جاهز.</p>
+    </div>
+    <div class="ser-group-title">المجموعة الأولى <small>— السلاسل الاثنتا عشرة الأصلية</small></div>
+    <div class="ser-grid" id="ser1"></div>
+    <div class="ser-group-title">المجموعة الثانية <small>— سلاسل مساندة مضافة</small></div>
+    <div class="ser-grid" id="ser2"></div>
+  </div>
+</section>
+
+<section id="explorer">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="k">أصل المنظومة</span>
+      <h2>مستكشف قاعدة الموضوعات — 320 موضوعاً</h2>
+      <p>كل موضوع مُهيكل بـ15 حقلاً: الجمهور، المشكلة، القيمة، الزاوية، المصادر المطلوبة، وأولويته. اضغط أي موضوع لعرض تفاصيله الكاملة.</p>
+    </div>
+    <div class="filters">
+      <input id="q" type="search" placeholder="🔎 ابحث في العناوين والمشكلات…">
+      <select id="fPillar"><option value="">كل المحاور</option></select>
+      <select id="fSer"><option value="">كل السلاسل</option></select>
+      <select id="fPri"><option value="">كل الأولويات</option></select>
+      <select id="fGeo"><option value="">كل النطاقات</option></select>
+    </div>
+    <div class="tcount" id="tcount"></div>
+    <div class="tlist" id="tlist"></div>
+    <button class="morebtn" id="moreBtn">عرض المزيد</button>
+  </div>
+</section>
+
+<section id="plan">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="k">التنفيذ</span>
+      <h2>خطة الإنتاج — 90 يوماً لمشغّل فردي</h2>
+      <p>108 منتجات مجدولة في تقويم يومي جاهز، بحد 12–20 ساعة أسبوعياً، وابتداءً من الأحد 2026-11-08.</p>
+    </div>
+    <div class="phases">
+      <div class="phase"><span class="ph">الشهر 1 · أسابيع 1–4</span><h3>التأسيس — تيليجرام + انستغرام</h3>
+        <ul><li>24 منشور تيليجرام منها 8 مقالات تحليلية</li><li>13 كاروسيل انستغرام مشتق</li><li>إثبات النبرة الجديدة + إعلان التحول</li><li>~12.5 ساعة أسبوعياً</li></ul></div>
+      <div class="phase"><span class="ph">الشهر 2 · أسابيع 5–8</span><h3>التوسع الموجه — + تيك توك وX</h3>
+        <ul><li>فيديو 60 ثانية مشتق من موضوع الأسبوع</li><li>خيوط X من المقالات الرئيسية</li><li>إثبات منطق التشتيت 1←6 عملياً</li><li>~15.5 ساعة أسبوعياً</li></ul></div>
+      <div class="phase"><span class="ph">الشهر 3 · أسابيع 9–13</span><h3>التحصين — + سناب وفيسبوك</h3>
+        <ul><li>أول تقرير سوق شهري موحد</li><li>8 إشارات اهتمام تراكمية</li><li>مراجعة تجارية للربع الثاني</li><li>~19.5 ساعة أسبوعياً</li></ul></div>
+    </div>
+    <div class="rhythm">
+      <table>
+        <tr><th>اليوم</th><th>المنتج</th><th>الزمن</th></tr>
+        <tr><td>السبت</td><td>تخطيط الأسبوع + مراجعة أرقام (10 دقائق) + تفاعل</td><td>60 د</td></tr>
+        <tr><td>الأحد</td><td>المقال الرئيسي + كاروسيل انستغرام (مشتق)</td><td>4 س</td></tr>
+        <tr><td>الاثنين</td><td>منشور قصير «دقيقة هندسية»</td><td>30 د</td></tr>
+        <tr><td>الثلاثاء</td><td>قصير (شهر 1) / فيديو 60 ث (شهر 2+)</td><td>30–90 د</td></tr>
+        <tr><td>الأربعاء</td><td>تحليل (شهر 1) / خيط X (شهر 2+)</td><td>45 د–2 س</td></tr>
+        <tr><td>الخميس</td><td>تقرير/تحليل أسبوعي (+ قصص سناب شهر 3+)</td><td>2.5 س</td></tr>
+        <tr><td class="rest">الجمعة</td><td class="rest">راحة — أو استطلاع تفاعلي كل أسبوعين</td><td>0–20 د</td></tr>
+      </table>
+    </div>
+    <div class="conv">
+      <div class="row">
+        <span class="box">📌 موضوع واحد</span><span class="ar">←</span>
+        <span class="box">مقال تيليجرام</span><span class="ar">←</span>
+        <span class="box">كاروسيل انستغرام</span><span class="ar">←</span>
+        <span class="box">فيديو 60 ث</span><span class="ar">←</span>
+        <span class="box">خيط X</span><span class="ar">←</span>
+        <span class="box">قصص سناب</span><span class="ar">←</span>
+        <span class="box">مقال فيسبوك</span>
+      </div>
+      <p>منطق 1←6: موضوع واحد يُنتج ستة أشكال — لا محتوى منفصلاً لكل منصة.</p>
+    </div>
+  </div>
+</section>
+
+<section id="samples" style="background:#eef2f7">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="k">أثبت لا نصف</span>
+      <h2>نماذج من المحتوى الفعلي</h2>
+      <p>مقتطفات من النماذج الثمانية الجاهزة للنشر في الوثيقة 08 — بنبرة القناة ووسوم التحقق.</p>
+    </div>
+    <div class="samples">
+      <div class="sample">
+        <div class="st">مقال تيليجرام · P1-001 · سلسلة بوابة الجودة</div>
+        <h3>7 نقاط يجب فحصها قبل صب سقف خرساني</h3>
+        <div class="ex">«قبل الصب لا رجعة بعده. ما يُدفن داخل الخرسانة يظهر عيوبه بعد أشهر — حين تكون التكلفة أكبر والمسؤولية مؤججة…» <i>— وثّق المحاور من المخطط، الانحناء في القوالب، التغطية، اختبار الشبكات قبل الدفن، وأمر الصب الموثق.</i></div>
+        <ul><li>كل نقطة برافعة عملية ومرجع فني (SBC 2024)</li><li>تُشتق منه شرائح انستغرام وقائمة فحص PDF</li></ul>
+      </div>
+      <div class="sample">
+        <div class="st">تقرير سوق شهري · P5-015 · سلسلة هندسة بالأرقام</div>
+        <h3>تقرير السوق — نوفمبر 2026</h3>
+        <ul>
+          <li><b>5,828</b> رخصة بناء يوليو 2026 (+4% سنوياً) — GASTAT</li>
+          <li>تكاليف البناء <b>+2.3%</b> في يوليو 2026</li>
+          <li>مؤشر أسعار العقارات <b>+1.3%</b> سنوياً (الربع الثاني 2026)</li>
+          <li><b>1.098 مليار ريال</b> إيداعات الدعم السكني (سبتمبر 2026)</li>
+          <li>نمو الناتج الحقيقي <b>4.5%</b> في 2025</li>
+        </ul>
+        <div class="ex" style="margin-top:10px"><i>كل رقم بتاريخ إعلانه ورابطه — مع فصل صريح بين «إحصاء بتاريخ» و«رأي أو تحليل».</i></div>
+      </div>
+      <div class="sample">
+        <div class="st">خيط X · P3-051 · سلسلة مكة تبني</div>
+        <h3>مخططات ولي العهد: ما هو معلن رسمياً؟</h3>
+        <div class="ex">«السوق يدور حول الاسم أسبوعياً… والكثير يتكلم عنه بلا مرجع. هذا ما هو معلن رسمياً — وما لم يتحقق — بالتوثيق الكامل.»</div>
+        <ul>
+          <li>منافسة تطوير «مخطط 9-ط»: كراسة 25,000 ريال، تنفيذ 3 سنوات</li>
+          <li>حجز 1,065 أرضاً في «الأزهار» عبر سكني</li>
+          <li>إفصاح صريح: لا أمر ملكي معلن لأصل التسمية — لا ننشره</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="makkah">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="k">الميزة التنافسية</span>
+      <h2>مكة تبني — السلسلة التطبيقية المحورية</h2>
+      <p>مكة ليست موضوعاً — إنها ميزة لا يستطيع منافس تقليدها: معطيات رسمية موثقة بتاريخها + قاعدة بيانات محلية جاهزة.</p>
+    </div>
+    <div class="mfacts">
+      <div class="mfact"><b>1,707,301 حاجاً</b> — موسم حج 1447هـ<span class="src">الهيئة العامة للإحصاء — أُعلن 26/05/2026 <span class="vtag h">حقيقة رسمية</span></span></div>
+      <div class="mfact"><b>منافسة تطوير «مخطط منح ولي العهد 9-ط»</b> — بنية تحتية مقابل استثمار جزء من المساحة، تنفيذ 3 سنوات<span class="src">أمانة العاصمة المقدسة — إعلان رسمي <span class="vtag h">حقيقة رسمية</span></span></div>
+      <div class="mfact"><b>1,065 أرضاً</b> محجوزة في مخطط «الأزهار» عبر منصة سكني<span class="src">وزارة الشؤون البلدية والقروية والإسكان — 29/05/2023 <span class="vtag h">حقيقة رسمية</span></span></div>
+      <div class="mfact"><b>إعلان تطوير جرهم الشمالية</b> بجبل الشراشف، ضمن برنامج الأحياء المطورة ومنصة «مُتم»<span class="src">الهيئة الملكية لمكة والمشاعر المقدسة — 31/10/2026 <span class="vtag h">حقيقة رسمية</span></span></div>
+      <div class="mfact"><b>381 مكتباً هندسياً</b> في مكة من أصل 1,859 بالمنطقة<span class="src">قاعدة بياناتنا — السجل الرسمي بهيئة المهندسين <span class="vtag h">موثق بتاريخ 2026-11</span></span></div>
+      <div class="mfact"><b>متوسط إعلانات الأراضي ≈ 7,850 ريال/م²</b> — عينات إعلانات لا صفقات<span class="src">مصدر ثانوي موسوم — والمرجع الرسمي: مؤشر رِجا <span class="vtag s">مصدر ثانوي</span></span></div>
+    </div>
+    <div class="mnote">⚖️ <b>قاعدة المدينة:</b> فصل الهويات (منح سكنية ≠ مشاريع رؤية) · الرقم بسنة إعلانه · الأسعار «إعلانات» لا «صفقات» · كل حالة تنفيذية بتاريخها · <b>ما لم يتحقق يوصف بما هو — ولا يُنشر أرقام من نسخ غير رسمية.</b></div>
+  </div>
+</section>
+
+<section id="verify">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="k">المصداقية قبل الحجم</span>
+      <h2>نظام المراجعة والتحقق</h2>
+      <p>سبع مراحل قبل أي نشر — لا منتج يُنشر دون (مصدر + تاريخ + رابط + وسم) في سجل تحقق تراكمي.</p>
+    </div>
+    <div class="verify">
+      <div class="vcard"><div class="vt" style="background:#e5f3ef;color:#0e7a5f">[حقيقة]</div><p>معطى رسمي بمصدر جهة معتمدة وتاريخ إعلان</p></div>
+      <div class="vcard"><div class="vt" style="background:#eef0fb;color:#3b4a9f">[رأي أو تحليل]</div><p>قراءة وتفسير — تُفصل بصرياً عن المعطى</p></div>
+      <div class="vcard"><div class="vt" style="background:#fff1e6;color:#c05a10">[تقدير توضيحي]</div><p>رقم توضيحي مبني على منهج معلن — لا ينسب رسمياً</p></div>
+      <div class="vcard"><div class="vt" style="background:#feecec;color:#b91c1c">[لم يتحقق]</div><p>يوصف بما هو — ولا تُستأنَس به نسخ غير رسمية</p></div>
+    </div>
+    <div class="vrule">🚫 قائمة كيل صارمة: أي رقم بلا مصدر مؤرخ يُمنع من النشر — والتاريخ الأحدث دائماً يستبدل القديم ويُحفظ في سلسلة زمنية.</div>
+  </div>
+</section>
+
+<section id="kpi" style="background:#eef2f7">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="k">قياس لا انطباع</span>
+      <h2>مؤشرات الأداء — أربع طبقات</h2>
+      <p>المشاهدات وحدها ليست نجاحاً — الوزن الأكبر للجودة والعلاقة والقيمة التجارية.</p>
+    </div>
+    <div class="kpis" id="kpis"></div>
+    <div class="ktargets"><b>أهداف اليوم 90:</b> تيليجرام نمو +10–15% شهرياً · انستغرام 1,000 · تيك توك 1,500 · X‏ 500 · حفظ ≥6% · إكمال الفيديو ≥45% · <b>≥8 إشارات اهتمام · ≥1 تحويل</b> — مع مراجعة تعديل بعد أسبوعين ببيانات حقيقية.</div>
+  </div>
+</section>
+
+<section id="docs">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="k">شفافية كاملة</span>
+      <h2>الوثائق الأربع عشرة — مفتوحة للقراءة</h2>
+      <p>كل ما بُني في هذه المنظومة موثق وملف ملف داخل المستودع — من التحليل التأسيسي إلى سجل التحقق.</p>
+    </div>
+    <div class="docs" id="docsGrid"></div>
+  </div>
+</section>
+
+<footer>
+  <div class="fbrand">🏗️ إبداعات هندسية — Engineering 540</div>
+  <div>منصة معرفة هندسية وعقارية سعودية · «صناعة الأثر لا مجرد الإنجاز»</div>
+  <div class="flinks">
+    <a href="https://t.me/engineering540" target="_blank">قناة تيليجرام</a>
+    <a href="https://github.com/eng540/engineering540" target="_blank">مستودع GitHub</a>
+    <a href="https://eng540.github.io/aqar-academy" target="_blank">الأكاديمية العقارية</a>
+  </div>
+  <div>إعداد: عبدالمجيد الفقيه — مهندس مدني · تواصل: @Eng540 · تاريخ بناء المنظومة: 2026-11-07</div>
+</footer>
+
+<script src="topics.js"></script>
+<script>
+/* ===== بيانات ثابتة ===== */
+const PILLARS=[
+ {w:'25%',n:'الهندسة المدنية والتطبيق العملي',d:'من التنفيذ اليومي إلى ضبط الجودة: أساسات وأعمدة وأسقف، قراءة مخططات، حصر كميات، إشراف وتوثيق ميداني.',key:'الهندسة المدنية والتطبيق العملي'},
+ {w:'20%',n:'المقاولات وإدارة المشاريع',d:'عقل المقاول: التسعير وتحليل التكاليف، العقود والمستخلصات، المخاطر، وقرارات المشاريع الصغيرة.',key:'المقاولات وإدارة المشاريع'},
+ {w:'18%',n:'التطوير العقاري والسوق السعودي',d:'قراءة السوق بالأرقام: الأراضي والمخططات، الجدوى، المطورون والوسطاء، الأنظمة والاشتراطات.',key:'التطوير العقاري والسوق السعودي'},
+ {w:'13%',n:'التقنية والذكاء الاصطناعي',d:'أدوات تُنجز: Excel متقدم للحصر والمستخلصات، أتمتة، وقراءة مستندات بحدود واقعية موثقة.',key:'التقنية والذكاء الاصطناعي'},
+ {w:'12%',n:'الفرص والأعمال والعلاقات',d:'حيث تكسب: الفراغات السوقية، نماذج الدخل للمهندس، بناء الشبكات وتطوير الأعمال.',key:'الفرص والأعمال والعلاقات'},
+ {w:'12%',n:'الهوية المهنية والقيادة الفكرية',d:'أثر يدوم: تجارب موثقة، مهارات التفاوض، التفكير التجاري، والحضور المهني.',key:'الهوية المهنية والقيادة الفكرية'}];
+const SERIES1=['من الموقع','دقيقة هندسية','افهم مشروعك','أخطاء لا تُغتفر','من أرض الواقع العقاري','المقاول الذكي','هندسة بالأرقام','الذكاء الاصطناعي للمهندس','فرصة في السوق','تحليل مشروع','مصطلح هندسي وعقاري','من مهندس إلى رائد أعمال'];
+const SERIES2=['بند ببند','بوابة الجودة','لغة المخططات','مكة تبني','قبل أن توقّع','اسأل المهندس','كلمة المؤسس'];
+const DOCS=[['docs/README.md','📚','الفهرس والملخص التنفيذي','ابدأ من هنا'],
+ ['docs/01_تحليل_القناة_التأسيسي.md','🔍','01 · التحليل التأسيسي','تشخيص الوضع وخطة التدقيق'],
+ ['docs/02_الهوية_التحريرية_والجمهور.md','🎯','02 · الهوية والجمهور','البيان · النبرات · 7 شخصيات'],
+ ['docs/03_المحاور_والتصنيفات.md','🗂️','03 · المحاور والتصنيفات','شجرة المحاور الستة'],
+ ['docs/04_قاعدة_الموضوعات/README.md','🗃️','04 · دليل قاعدة الموضوعات','كيف تُقرأ وتُدار'],
+ ['docs/05_مكتبة_السلاسل_التحريرية.md','📌','05 · مكتبة السلاسل','19 سلسلة وقوالبها'],
+ ['docs/06_التوزيع_متعدد_المنصات_والمنتجات.md','🔁','06 · التوزيع متعدد المنصات','منطق 1←6 و15 منتجاً'],
+ ['docs/07_خطة_الإنتاج_90_يوماً.md','🗓️','07 · خطة 90 يوماً','ثلاث مراحل ودورة 4 ساعات'],
+ ['docs/08_نماذج_المحتوى_الفعلي.md','✍️','08 · نماذج المحتوى','8 نماذج جاهزة للنشر'],
+ ['docs/09_نظام_المراجعة_والتحقق.md','🛡️','09 · المراجعة والتحقق','الوسوم وقائمة الكيل'],
+ ['docs/10_مؤشرات_الأداء.md','📈','10 · مؤشرات الأداء','أربع طبقات KPI'],
+ ['docs/11_التحويل_التجاري.md','💼','11 · التحويل التجاري','سلّم العروض والضوابط'],
+ ['docs/12_نظام_التشغيل_والأتمتة.md','⚙️','12 · التشغيل والأتمتة','الحلقة الأسبوعية والصمود'],
+ ['docs/14_مكة_المكرمة_التطبيقية.md','🕋','14 · مكة المكرمة','قواعد المدينة والخريطة'],
+ ['docs/topics/Engineering540_Topics_Master.csv','⬇️','القاعدة الكاملة CSV','تحميل 320 موضوعاً'],
+ ['docs/calendar/90day_calendar.csv','⬇️','تقويم 90 يوماً CSV','تحميل الجدول اليومي']];
+const KPIS=[['الوصول','20%','نمو المشتركين والمتابعين عبر المنصات'],['جودة وتفاعل','35%','حفظ ≥6% · إكمال فيديو ≥45% · جودة القراءة'],['العلاقة','25%','ردود ثنائية · أسئلة أسبوعية · إشارات اهتمام'],['قيمة تجارية','20%','مكالمات · عروض مرفوعة · أول تحويل']];
+
+/* ===== إحصاءات ===== */
+const mk=TOPICS.filter(t=>t.geo!=='عام سعودي').length;
+const com=TOPICS.filter(t=>t.com!=='لا').length;
+const stats=[[TOPICS.length,'موضوعاً مُهيكلاً'],['19','سلسلة تحريرية'],['6','محاور رئيسية'],['8,456','مشترك بالقناة'],['108','منتجاً في 90 يوماً'],[mk,'موضوعاً وسَم مكة']];
+document.getElementById('stats').innerHTML=stats.map(s=>`<div class="stat"><b>${s[0]}</b><span>${s[1]}</span></div>`).join('');
+
+/* ===== محاور ===== */
+document.getElementById('pillarsGrid').innerHTML=PILLARS.map(p=>{
+  const n=TOPICS.filter(t=>t.pillar===p.key).length;
+  return `<div class="pillar"><span class="n">${n} موضوعاً</span><h3>${p.n}</h3><span class="w">الوزن: ${p.w}</span><p>${p.d}</p></div>`;
+}).join('');
+
+/* ===== سلاسل مع أعداد حقيقية ===== */
+function serHtml(list){return list.map(s=>{
+  const c=TOPICS.filter(t=>t.ser===s).length;
+  return `<div class="ser">📌 ${s}<span class="c">${c}</span></div>`;}).join('')}
+document.getElementById('ser1').innerHTML=serHtml(SERIES1);
+document.getElementById('ser2').innerHTML=serHtml(SERIES2);
+
+/* ===== مستكشف القاعدة ===== */
+const $=id=>document.getElementById(id);
+const uniq=(k)=>[...new Set(TOPICS.map(t=>t[k]))].sort();
+function fill(sel,vals){$(sel).innerHTML+=vals.map(v=>`<option>${v}</option>`).join('')}
+fill('fPillar',uniq('pillar'));fill('fSer',uniq('ser').filter(s=>s!=='لا'));
+fill('fPri',['1-أساسية','2-مهمة','3-إثرائية']);fill('fGeo',uniq('geo'));
+let shown=0,PAGE=36;
+function norm(s){return s.replace(/[إأآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').toLowerCase()}
+function filtered(){
+  const q=norm($('q').value.trim()),p=$('fPillar').value,s=$('fSer').value,pr=$('fPri').value,g=$('fGeo').value;
+  return TOPICS.filter(t=>
+    (!q||norm(t.title+t.prob+t.sub).includes(q))&&
+    (!p||t.pillar===p)&&(!s||t.ser===s)&&(!pr||t.pri===pr)&&(!g||t.geo===g));
+}
+function priCls(p){return p.startsWith('1')?'p1':''}
+function card(t){
+  const com=t.com!=='لا'?`<span class="tag" style="background:#e5f3ef;color:#0e7a5f">💼 فرصة تجارية</span>`:'';
+  return `<div class="tcard" onclick="this.classList.toggle('open')">
+    <div class="top"><span class="id">${t.id}</span><h4>${t.title}</h4></div>
+    <div class="tags">
+      <span class="tag ${priCls(t.pri)}">${t.pri}</span>
+      ${t.ser!=='لا'?`<span class="tag ser">${t.ser}</span>`:''}
+      ${t.geo!=='عام سعودي'?`<span class="tag mk">📍 ${t.geo}</span>`:''}
+      <span class="tag">${t.typ}</span>${com}
+    </div>
+    <div class="more">
+      <b>المحور:</b> ${t.pillar} — ${t.sub}<br>
+      <b>الجمهور:</b> ${t.aud}<br>
+      <b>المشكلة:</b> ${t.prob}<p></p>
+      <b>القيمة:</b> ${t.val}<p></p>
+      <b>الزاوية:</b> ${t.ang} · <b>المنصات:</b> ${t.plat}<br>
+      <b>المصادر المطلوبة:</b> ${t.src}<br>
+      <b>الفرصة التجارية:</b> ${t.com}
+    </div></div>`;
+}
+function render(reset){
+  const items=filtered();
+  if(reset){shown=0;$('tlist').innerHTML=''}
+  const chunk=items.slice(shown,shown+PAGE);
+  $('tlist').insertAdjacentHTML('beforeend',chunk.map(card).join(''));
+  shown+=chunk.length;
+  $('tcount').textContent=`عرض ${Math.min(shown,items.length)} من ${items.length} موضوعاً`;
+  $('moreBtn').style.display=shown<items.length?'block':'none';
+}
+['q','fPillar','fSer','fPri','fGeo'].forEach(id=>{
+  $(id).addEventListener(id==='q'?'input':'change',()=>render(true));
+});
+$('moreBtn').onclick=()=>render(false);
+render(true);
+
+/* ===== KPI ===== */
+document.getElementById('kpis').innerHTML=KPIS.map(k=>`<div class="kpi"><h4>${k[0]}<span>${k[1]}</span></h4><div class="bar"><div class="fill" style="width:${k[1]}"></div></div><p>${k[2]}</p></div>`).join('');
+
+/* ===== الوثائق ===== */
+document.getElementById('docsGrid').innerHTML=DOCS.map(d=>`<a class="doc" href="${d[0]}"><span class="ic">${d[1]}</span><span>${d[2]}<small>${d[3]}</small></span></a>`).join('');
+</script>
+</body>
+</html>

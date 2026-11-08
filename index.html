@@ -161,6 +161,49 @@ section{padding:56px 18px}
 .doc:hover{border-color:var(--orange);transform:translateY(-2px)}
 .doc .ic{font-size:1.2em}
 .doc small{display:block;color:var(--muted);font-weight:600;font-size:.8em}
+/* library — المحتوى الجاهز */
+.libbar{display:flex;align-items:center;gap:16px;flex-wrap:wrap;background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px 20px;margin-bottom:18px;box-shadow:0 1px 3px rgba(16,24,40,.06)}
+.libbar .prog{flex:1;min-width:180px;height:12px;background:#e8edf4;border-radius:99px;overflow:hidden}
+.libbar .progfill{height:100%;background:linear-gradient(90deg,var(--orange),var(--orange2));width:0;transition:.7s}
+.libbar .libstats{font-size:.84em;font-weight:800;color:var(--navy);white-space:nowrap}
+.clist{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.libcard{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:flex;flex-direction:column;gap:8px;box-shadow:0 1px 3px rgba(16,24,40,.05);transition:.18s}
+.libcard:hover{box-shadow:0 8px 22px rgba(16,24,40,.10);transform:translateY(-2px)}
+.lhead{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.lid{font-size:.74em;font-weight:800;color:#fff;background:var(--navy);padding:2px 9px;border-radius:99px;letter-spacing:.3px}
+.ltype{font-size:.74em;font-weight:800;color:var(--orange);background:#fdeee1;padding:2px 9px;border-radius:99px}
+.libcard h4{margin:0;font-size:1.02em;color:var(--navy);line-height:1.6}
+.lex{font-size:.86em;color:var(--muted);line-height:1.85;margin:0;flex:1;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.lmeta{display:flex;gap:8px;flex-wrap:wrap;font-size:.76em;color:var(--muted)}
+.lmeta .ser{color:#8a4b0f;background:#fff4e6;padding:1px 8px;border-radius:99px;font-weight:700}
+.lread{margin-top:4px;background:var(--navy);color:#fff;border:0;border-radius:10px;padding:9px 14px;font-weight:800;font-size:.86em;cursor:pointer;font-family:inherit}
+.lread:hover{background:var(--orange)}
+.ccard{background:#fff;border:1px solid var(--line);border-radius:14px;padding:15px 17px;display:flex;flex-direction:column;gap:7px;box-shadow:0 1px 3px rgba(16,24,40,.06)}
+.ccard .ctop{display:flex;align-items:center;gap:8px}
+.ccard .cid{font-size:.7em;font-weight:800;color:#fff;background:var(--navy);border-radius:6px;padding:2px 7px;letter-spacing:.3px}
+.ccard h4{margin:0;font-size:1em;color:var(--navy);line-height:1.55;font-weight:800}
+.ccard .ex{font-size:.8em;color:var(--muted);line-height:1.75;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;margin:0}
+.ccard .cfoot{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:auto;padding-top:8px;border-top:1px dashed var(--line)}
+.ccard .ready{background:#e5f3ef;color:#0e7a5f;font-weight:800;font-size:.7em;padding:2px 9px;border-radius:99px}
+.ccard .ctag{font-size:.7em;color:#5b6b82;background:#eef2f7;border-radius:99px;padding:2px 9px}
+.ccard button{margin-inline-start:auto;background:var(--navy);color:#fff;border:0;border-radius:9px;padding:7px 15px;font-family:inherit;font-weight:800;font-size:.78em;cursor:pointer;transition:.2s}
+.ccard button:hover{background:var(--orange)}
+.modal{display:none;position:fixed;inset:0;background:rgba(10,20,35,.62);z-index:100;padding:20px;overflow:auto}
+.modal.open{display:block}
+.modalbox{max-width:820px;margin:22px auto;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.32)}
+.modalhead{display:flex;align-items:center;gap:12px;background:linear-gradient(90deg,var(--navy2),var(--navy));color:#fff;padding:14px 20px;font-weight:800;font-size:.95em}
+.modalhead button{margin-inline-start:auto;background:rgba(255,255,255,.16);border:0;color:#fff;font-size:1em;width:34px;height:34px;border-radius:9px;cursor:pointer;flex:0 0 auto}
+.modalbody{padding:20px 26px;max-height:72vh;overflow:auto;line-height:1.95;font-size:.94em}
+.modalbody h1{font-size:1.28em;color:var(--navy);margin:0 0 10px}
+.modalbody h2{font-size:1.1em;color:var(--navy);margin:20px 0 8px;border-inline-start:4px solid var(--orange);padding-inline-start:10px}
+.modalbody h3{font-size:1em;color:var(--navy);margin:14px 0 6px}
+.modalbody blockquote{background:#f3f6fa;border-inline-start:4px solid var(--orange);margin:12px 0;padding:10px 14px;border-radius:0 10px 10px 0;color:#3b4a5e;font-size:.92em}
+.modalbody ul{padding-inline-start:22px;margin:8px 0}
+.modalbody li{margin:4px 0}
+.modalbody hr{border:0;border-top:1px dashed var(--line);margin:18px 0}
+.modalbody strong{color:var(--navy)}
+.modalbody a{color:var(--orange);font-weight:700}
+.modalbody .load{color:var(--muted);text-align:center;padding:30px}
 /* footer */
 footer{background:var(--navy2);color:#c3cede;padding:34px 18px;text-align:center;font-size:.85em}
 footer .fbrand{font-weight:900;color:#fff;font-size:1.15em;margin-bottom:6px}
@@ -183,6 +226,7 @@ footer .flinks{margin:12px 0;display:flex;gap:14px;justify-content:center;flex-w
       <a href="#pillars">المحاور</a>
       <a href="#series">السلاسل</a>
       <a href="#explorer">قاعدة الموضوعات</a>
+      <a href="#library">مكتبة المحتوى</a>
       <a href="#plan">خطة 90 يوماً</a>
       <a href="#makkah">مكة تبني</a>
       <a href="#docs">الوثائق</a>
@@ -287,6 +331,36 @@ footer .flinks{margin:12px 0;display:flex;gap:14px;justify-content:center;flex-w
     <button class="morebtn" id="moreBtn">عرض المزيد</button>
   </div>
 </section>
+
+<section id="library" style="background:#eef2f7">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="k">البناء جارٍ — دفعة بدفعة</span>
+      <h2>مكتبة المحتوى الجاهز للنشر</h2>
+      <p>كل موضوع هنا كُتب محتواه كاملاً بنبرة القناة ونظام التحقق، ثم رُفع فوراً إلى المستودع. اضغط «اقرأ» لقراءة النص الكامل — المحتوى الجاهز يظهر مباشرة بعد كل دفعة.</p>
+    </div>
+    <div class="libbar">
+      <div class="prog"><div class="progfill" id="libProg"></div></div>
+      <div class="libstats" id="libStats">جارٍ التحميل…</div>
+    </div>
+    <div class="filters">
+      <input id="cq" type="search" placeholder="🔎 ابحث في المحتوى الجاهز…">
+      <select id="cPillar"><option value="">كل المحاور</option></select>
+      <select id="cType"><option value="">كل الأنواع</option></select>
+    </div>
+    <div class="tcount" id="cCount"></div>
+    <div class="clist" id="clist"></div>
+    <button class="morebtn" id="cMore">عرض المزيد</button>
+    <div class="ktargets" style="margin-top:22px"><b>كيف تُقرأ الحالة؟</b> «جاهز للنشر» = ملف مكتمل بوسوم تحقق ومصادر — يحتاج مراجعة المؤسس النهائية قبل النشر الفعلي. الأعداد تتحدث مع كل دفعة جديدة.</div>
+  </div>
+</section>
+
+<div id="modal" class="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modalbox">
+    <div class="modalhead"><span id="mTitle">—</span><button onclick="closeModal()" aria-label="إغلاق">✕</button></div>
+    <div class="modalbody" id="mBody"><div class="load">جارٍ التحميل…</div></div>
+  </div>
+</div>
 
 <section id="plan">
   <div class="wrap">
@@ -441,6 +515,7 @@ footer .flinks{margin:12px 0;display:flex;gap:14px;justify-content:center;flex-w
 </footer>
 
 <script src="topics.js"></script>
+<script src="content.js"></script>
 <script>
 /* ===== بيانات ثابتة ===== */
 const PILLARS=[
@@ -538,6 +613,92 @@ function render(reset){
 });
 $('moreBtn').onclick=()=>render(false);
 render(true);
+
+/* ===== مكتبة المحتوى الجاهز ===== */
+const LIB=(window.CONTENT||[]);
+const TOTAL=320;
+const PAGE2=12;
+let libShown=0;
+function libFiltered(){
+  const q=norm($('cq').value||''),pi=$('cPillar').value,ty=$('cType').value;
+  return LIB.filter(x=>{
+    if(pi&&x.pillar!==pi)return false;
+    if(ty&&x.type!==ty)return false;
+    if(q){const s=norm(x.id+' '+x.title+' '+x.type+' '+x.series+' '+x.excerpt);if(!s.includes(q))return false}
+    return true;
+  });
+}
+function libCard(x){
+  return `<div class="libcard">
+    <div class="lhead"><span class="lid">${x.id}</span><span class="ltype">${x.type}</span></div>
+    <h4>${x.title}</h4>
+    <p class="lex">${x.excerpt||''}</p>
+    <div class="lmeta"><span>${x.pillarName}</span>${x.series!=='لا'?`<span class="ser">${x.series}</span>`:''}</div>
+    <button class="lread" onclick="openLib('${x.id}')">اقرأ النص الكامل →</button>
+  </div>`;
+}
+function renderLib(reset){
+  const items=libFiltered();
+  if(reset){libShown=0;$('clist').innerHTML=''}
+  const chunk=items.slice(libShown,libShown+PAGE2);
+  $('clist').insertAdjacentHTML('beforeend',chunk.map(libCard).join(''));
+  libShown+=chunk.length;
+  const pct=Math.round(LIB.length/TOTAL*100);
+  $('libProg').style.width=pct+'%';
+  $('libStats').textContent=`${LIB.length} من ${TOTAL} موضوعاً · ${pct}% مكتمل`;
+  $('cCount').textContent=`عرض ${Math.min(libShown,items.length)} من ${items.length} محتوى مكتوب`;
+  $('cMore').style.display=libShown<items.length?'block':'none';
+  if(!items.length)$('cCount').textContent='لا توجد نتائج مطابقة — امسح الفلاتر';
+}
+function mdToHtml(s){
+  s=s.replace(/^---[\s\S]*?---\s*/,'');
+  s=s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const out=[];let ul=false,ol=false;
+  s.split('\n').forEach(line=>{
+    const t=line.trim();
+    const li=t.match(/^[-*]\s+(.*)$/), oi=t.match(/^(\d+)\.\s+(.*)$/);
+    if(li){if(!ul){out.push('<ul>');ul=true}out.push('<li>'+inline(li[1])+'</li>');return}
+    if(ul){out.push('</ul>');ul=false}
+    if(oi){if(!ol){out.push('<ol>');ol=true}out.push('<li>'+inline(oi[2])+'</li>');return}
+    if(ol){out.push('</ol>');ol=false}
+    if(!t){out.push('');return}
+    if(t==='---'){out.push('<hr>');return}
+    if(/^#{1,6}\s/.test(t)){const h=t.match(/^(#{1,6})\s+(.*)$/);out.push(`<h${Math.min(h[1].length,3)}>${inline(h[2])}</h${Math.min(h[1].length,3)}>`);return}
+    if(t.startsWith('>')){out.push('<blockquote>'+inline(t.replace(/^>\s?/,''))+'</blockquote>');return}
+    out.push('<p>'+inline(t)+'</p>');
+  });
+  if(ul)out.push('</ul>');if(ol)out.push('</ol>');
+  return out.join('\n');
+}
+function inline(t){
+  return t.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>')
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>')
+    .replace(/`([^`]+)`/g,'<code>$1</code>');
+}
+function openLib(id){
+  const x=LIB.find(v=>v.id===id);if(!x)return;
+  $('mTitle').textContent=x.id+' · '+x.title;
+  $('mBody').innerHTML='<div class="load">جارٍ التحميل…</div>';
+  $('modal').classList.add('open');
+  document.body.style.overflow='hidden';
+  fetch(x.path).then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.text()})
+    .then(t=>{$('mBody').innerHTML=mdToHtml(t)})
+    .catch(e=>{$('mBody').innerHTML=`<div class="load">تعذّر تحميل الملف (${e.message})<br><a href="${x.path}" target="_blank">فتح الملف مباشرة</a></div>`});
+}
+function closeModal(){const m=$('modal');if(m&&m.classList.contains('open')){m.classList.remove('open');document.body.style.overflow=''}}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+if(LIB.length){
+  const pMap={P1:'الهندسة المدنية والتطبيق العملي',P2:'المقاولات وإدارة المشاريع',P3:'التطوير العقاري والسوق السعودي',P4:'التقنية والذكاء الاصطناعي',P5:'الفرص والأعمال والعلاقات',P6:'الهوية المهنية والقيادة الفكرية'};
+  const present=[...new Set(LIB.map(x=>x.pillar))].sort();
+  $('cPillar').innerHTML+=present.map(p=>`<option value="${p}">${pMap[p]||p}</option>`).join('');
+  fill('cType',[...new Set(LIB.map(x=>x.type))].sort());
+  ['cq','cPillar','cType'].forEach(id=>$(id).addEventListener(id==='cq'?'input':'change',()=>renderLib(true)));
+  $('cMore').onclick=()=>renderLib(false);
+  renderLib(true);
+}else{
+  $('libStats').textContent='لا توجد ملفات محتوى بعد';
+  $('cCount').textContent='ستظهر المحتوى هنا فور رفع أول دفعة';
+}
 
 /* ===== KPI ===== */
 document.getElementById('kpis').innerHTML=KPIS.map(k=>`<div class="kpi"><h4>${k[0]}<span>${k[1]}</span></h4><div class="bar"><div class="fill" style="width:${k[1]}"></div></div><p>${k[2]}</p></div>`).join('');

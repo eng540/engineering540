@@ -197,7 +197,13 @@ section{padding:56px 18px}
 .modal.open{display:block}
 .modalbox{max-width:820px;margin:22px auto;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.32)}
 .modalhead{display:flex;align-items:center;gap:12px;background:linear-gradient(90deg,var(--navy2),var(--navy));color:#fff;padding:14px 20px;font-weight:800;font-size:.95em}
-.modalhead button{margin-inline-start:auto;background:rgba(255,255,255,.16);border:0;color:#fff;font-size:1em;width:34px;height:34px;border-radius:9px;cursor:pointer;flex:0 0 auto}
+.modalhead button{margin-inline-start:0;background:rgba(255,255,255,.16);border:0;color:#fff;font-size:1em;width:34px;height:34px;border-radius:9px;cursor:pointer;flex:0 0 auto}
+.modalhead .copybtn{margin-inline-start:auto;width:auto;height:34px;padding:0 15px;font-size:.82em;font-weight:800;font-family:inherit;background:var(--orange);white-space:nowrap}
+.modalhead .copybtn:hover{background:#d96a15}
+.modalhead .copybtn.done{background:#0e9f6e}
+.modalbody .mfoot{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px;padding-top:14px;border-top:1px dashed var(--line)}
+.modalbody .mbtn{background:#eef2f7;color:var(--navy);border:1px solid var(--line);border-radius:9px;padding:8px 15px;font-family:inherit;font-weight:800;font-size:.82em;cursor:pointer}
+.modalbody .mbtn:hover{background:var(--navy);color:#fff}
 .modalbody{padding:20px 26px;max-height:72vh;overflow:auto;line-height:1.95;font-size:.94em}
 .modalbody h1{font-size:1.28em;color:var(--navy);margin:0 0 10px}
 .modalbody h2{font-size:1.1em;color:var(--navy);margin:20px 0 8px;border-inline-start:4px solid var(--orange);padding-inline-start:10px}
@@ -362,7 +368,7 @@ footer .flinks{margin:12px 0;display:flex;gap:14px;justify-content:center;flex-w
 
 <div id="modal" class="modal" onclick="if(event.target===this)closeModal()">
   <div class="modalbox">
-    <div class="modalhead"><span id="mTitle">—</span><button onclick="closeModal()" aria-label="إغلاق">✕</button></div>
+    <div class="modalhead"><span id="mTitle">—</span><button class="copybtn" id="mCopy" onclick="copyContent('clean')">📋 نسخ المحتوى</button><button onclick="closeModal()" aria-label="إغلاق">✕</button></div>
     <div class="modalbody" id="mBody"><div class="load">جارٍ التحميل…</div></div>
   </div>
 </div>
@@ -688,19 +694,60 @@ function inline(t){
     .replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>')
     .replace(/`([^`]+)`/g,'<code>$1</code>');
 }
+/* ===== النسخ ===== */
+let mRawMd='', mClean='';
+function stripFm(s){return s.replace(/^---[\s\S]*?---\s*/,'').trim()}
+function cleanText(md){
+  let s=stripFm(md);
+  s=s.replace(/^\s*#{1,6}\s*/gm,'');
+  s=s.replace(/\*\*([^*]+)\*\*/g,'$1');
+  s=s.replace(/`([^`]+)`/g,'$1');
+  s=s.replace(/\[([^\]]+)\]\([^)]+\)/g,'$1');
+  s=s.replace(/^\s*[-*]\s+/gm,'• ');
+  s=s.replace(/^\s*-{3,}\s*$/gm,'');
+  s=s.replace(/\n{3,}/g,'\n\n');
+  return s.trim();
+}
+function copyText(txt,btn,label){
+  const ok=()=>{if(!btn)return;const o=label||btn.textContent;btn.classList.add('done');btn.textContent='✓ تم النسخ';setTimeout(()=>{btn.classList.remove('done');btn.textContent=o},1900)};
+  const fb=()=>{try{const ta=document.createElement('textarea');ta.value=txt;ta.setAttribute('readonly','');ta.style.position='fixed';ta.style.top='-1000px';document.body.appendChild(ta);ta.select();ta.setSelectionRange(0,txt.length);document.execCommand('copy');document.body.removeChild(ta);ok()}catch(e){alert('تعذّر النسخ تلقائياً — حدّد النص يدوياً')}};
+  if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(txt).then(ok).catch(fb)}else fb();
+}
+function copyContent(mode){
+  const btn=mode==='raw'?(document.getElementById('mCopyRaw')||document.getElementById('mCopy')):document.getElementById('mCopy');
+  if(mode==='raw'){
+    if(!mRawMd){alert('لا يوجد محتوى لنسخه');return}
+    copyText(mRawMd,btn,'نسخ Markdown الخام');
+  }else{
+    if(!mClean){alert('لا يوجد محتوى لنسخه');return}
+    copyText(mClean,btn,'📋 نسخ المحتوى');
+  }
+}
 function openLib(id){
   const x=LIB.find(v=>v.id===id);
   if(!x){
+    mRawMd='';mClean='';
     $('mTitle').textContent=id;
     $('mBody').innerHTML='<div class="load">✍️ محتوى هذا الموضوع قيد الكتابة ولم يُرفع بعد.</div>';
     $('modal').classList.add('open');document.body.style.overflow='hidden';return;
   }
   $('mTitle').textContent=x.id+' · '+x.title;
   $('mBody').innerHTML='<div class="load">جارٍ التحميل…</div>';
+  mRawMd='';mClean='';
   $('modal').classList.add('open');
   document.body.style.overflow='hidden';
   fetch(x.path).then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.text()})
-    .then(t=>{$('mBody').innerHTML=mdToHtml(t)})
+    .then(t=>{
+      mRawMd=t;
+      const body=cleanText(t);
+      const firstLine=(body.split('\n')[0]||'').trim();
+      mClean=(firstLine===x.title.trim())?body:('# '+x.title+'\n\n'+body);
+      $('mBody').innerHTML=mdToHtml(t)+`<div class="mfoot">
+        <button class="mbtn" onclick="copyContent('clean')">📋 نسخ للنشر</button>
+        <button class="mbtn" id="mCopyRaw" onclick="copyContent('raw')">⌨️ نسخ Markdown الخام</button>
+        <a class="mbtn" style="text-decoration:none" href="${x.path}" target="_blank">فتح الملف الأصلي</a>
+      </div>`;
+    })
     .catch(e=>{$('mBody').innerHTML=`<div class="load">تعذّر تحميل الملف (${e.message})<br><a href="${x.path}" target="_blank">فتح الملف مباشرة</a></div>`});
 }
 function closeModal(){const m=$('modal');if(m&&m.classList.contains('open')){m.classList.remove('open');document.body.style.overflow=''}}

@@ -100,6 +100,11 @@ section{padding:56px 18px}
 .tcard.open .more{display:block}
 .tcard .more b{color:var(--navy)}
 .tcard .more p{margin:3px 0 8px}
+.tcard .cactions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:12px;padding-top:10px;border-top:1px solid var(--line)}
+.tcard .cactions .lread{background:var(--navy);color:#fff;border:0;border-radius:10px;padding:9px 16px;font-family:inherit;font-weight:800;font-size:.92em;cursor:pointer;transition:.2s}
+.tcard .cactions .lread:hover{background:var(--orange)}
+.tcard .cnote{font-size:.8em;color:#0e7a5f;font-weight:700;background:#e5f3ef;padding:3px 10px;border-radius:99px}
+.tcard .cnote.nowrite{color:#8a4b0f;background:#fff4e6}
 .morebtn{display:block;margin:18px auto 0;background:var(--navy);color:#fff;border:0;font-family:inherit;font-weight:800;border-radius:11px;padding:10px 26px;cursor:pointer;font-size:.9em}
 .morebtn:hover{background:var(--navy2)}
 /* plan */
@@ -579,6 +584,11 @@ function filtered(){
     (!p||t.pillar===p)&&(!s||t.ser===s)&&(!pr||t.pri===pr)&&(!g||t.geo===g));
 }
 function priCls(p){return p.startsWith('1')?'p1':''}
+let _cset=null;
+function hasContent(id){
+  if(!_cset)_cset=new Set((window.CONTENT||[]).map(x=>x.id));
+  return _cset.has(id);
+}
 function card(t){
   const com=t.com!=='لا'?`<span class="tag" style="background:#e5f3ef;color:#0e7a5f">💼 فرصة تجارية</span>`:'';
   return `<div class="tcard" onclick="this.classList.toggle('open')">
@@ -597,6 +607,9 @@ function card(t){
       <b>الزاوية:</b> ${t.ang} · <b>المنصات:</b> ${t.plat}<br>
       <b>المصادر المطلوبة:</b> ${t.src}<br>
       <b>الفرصة التجارية:</b> ${t.com}
+      <div class="cactions">${hasContent(t.id)
+        ? `<button class="lread" onclick="event.stopPropagation();openLib('${t.id}')">📖 عرض المحتوى الكامل</button><span class="cnote">مكتوب وجاهز للنشر</span>`
+        : `<span class="cnote nowrite">✍️ المحتوى قيد الكتابة</span>`}</div>
     </div></div>`;
 }
 function render(reset){
@@ -676,7 +689,12 @@ function inline(t){
     .replace(/`([^`]+)`/g,'<code>$1</code>');
 }
 function openLib(id){
-  const x=LIB.find(v=>v.id===id);if(!x)return;
+  const x=LIB.find(v=>v.id===id);
+  if(!x){
+    $('mTitle').textContent=id;
+    $('mBody').innerHTML='<div class="load">✍️ محتوى هذا الموضوع قيد الكتابة ولم يُرفع بعد.</div>';
+    $('modal').classList.add('open');document.body.style.overflow='hidden';return;
+  }
   $('mTitle').textContent=x.id+' · '+x.title;
   $('mBody').innerHTML='<div class="load">جارٍ التحميل…</div>';
   $('modal').classList.add('open');

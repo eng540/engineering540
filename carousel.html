@@ -79,21 +79,44 @@ let current={id:'',title:'',slides:[]};
   if(q){sel.value=q;loadTopic(q)}
 })();
 
+function cleanMd(s){
+  return s.replace(/\*\*/g,'').replace(/^#+\s*/gm,'').replace(/^\s*[•\-*]\s*/gm,'• ')
+          .replace(/\[([^\]]+)\]\([^)]+\)/g,'$1').replace(/\s+$/gm,'').replace(/\n{3,}/g,'\n\n').trim();
+}
+function getTitle(txt){
+  const fm=txt.match(/العنوان\s*:\s*(.+)/);
+  if(fm)return fm[1].trim();
+  const h=txt.match(/^#\s+(.+)$/m);
+  return h?h[1].trim():'';
+}
 function splitSlides(txt){
-  const body=txt.replace(/^---[\s\S]*?---\s*/,'');
-  const parts=body.split(/الشريحة\s*\d+\s*[:：]/).map(s=>s.trim()).filter(Boolean);
-  if(parts.length>1)return parts;
-  // بديل: تقسيم بالفقرات الطويلة
-  return body.split(/\n\s*\n/).map(s=>s.trim()).filter(s=>s.length>40).slice(0,10);
+  const raw=txt.replace(/^---[\s\S]*?---\s*/,'');
+  const re=/الشريحة\s*(\d+)\s*[:：]/g;
+  const after=[],at=[];let m;
+  while((m=re.exec(raw))){at.push(m.index);after.push(m.index+m[0].length)}
+  const out=[];
+  if(after.length>=2){
+    for(let k=0;k<after.length;k++){
+      const start=after[k];
+      const end=(k+1<after.length)?at[k+1]:raw.length;
+      out.push(cleanMd(raw.slice(start,end)));
+    }
+    return out.filter(x=>x.length>15);
+  }
+  // بديل: الفقرات الطويلة أو الأقسام
+  const sec=raw.split(/\n(?=#{1,3}\s|\*\*[^*]+\*\*\s*:)/).map(cleanMd).filter(s=>s.length>60);
+  if(sec.length>2)return sec.slice(0,12);
+  return raw.split(/\n\s*\n/).map(cleanMd).filter(s=>s.length>60).slice(0,12);
 }
 function loadTopic(id){
   const x=(window.CONTENT||[]).find(v=>v.id===id);
   if(!x)return;
   $('status').textContent='جارٍ التحميل…';
   fetch(x.path).then(r=>r.text()).then(t=>{
-    current={id:x.id,title:x.title,slides:splitSlides(t)};
+    const cover=getTitle(t)||x.title;
+    current={id:x.id,title:x.title,slides:[cover].concat(splitSlides(t))};
     render();
-    $('status').textContent=current.slides.length+' شريحة';
+    $('status').textContent=(current.slides.length)+' شريحة (منها الغلاف)';
   }).catch(()=>{$('status').textContent='تعذّر التحميل'});
 }
 $('loadBtn').onclick=()=>{const v=$('topicSel').value;if(v)loadTopic(v)};

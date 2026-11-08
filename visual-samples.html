@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>مقارنة بصرية — نص منسّق مقابل إنفوجرافيك حقيقي</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1C2E4A;--navy2:#13203A;--orange:#E87722;--bg:#f5f7fa;--card:#fff;--line:#e3e8ef;--txt:#243044;--muted:#64748b}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Cairo',system-ui,sans-serif;background:var(--bg);color:var(--txt);line-height:1.9}
+header{background:linear-gradient(90deg,var(--navy2),var(--navy));color:#fff;padding:16px 22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+header b{font-size:1.1em}
+header a{color:#ffd9b3;font-weight:800;text-decoration:none;margin-inline-start:auto}
+.wrap{max-width:1100px;margin:0 auto;padding:24px 18px 70px}
+.intro{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px 22px;margin-bottom:26px}
+.intro h2{margin:0 0 10px;color:var(--navy);font-size:1.15em}
+.intro p{margin:6px 0;color:var(--muted);font-size:.94em}
+.case{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px 22px;margin-bottom:26px;box-shadow:0 1px 4px rgba(16,24,40,.06)}
+.case h3{margin:0 0 4px;color:var(--navy);font-size:1.1em}
+.tag{display:inline-block;font-size:.72em;font-weight:800;border-radius:99px;padding:3px 12px;margin-inline-start:8px;vertical-align:middle}
+.tag.no{background:#fee2e2;color:#b91c1c}
+.tag.yes{background:#dcfce7;color:#15803d}
+.case img{width:100%;max-width:660px;display:block;margin:16px auto;border:1px solid var(--line);border-radius:12px}
+.case .what{background:#f8fafc;border-inline-start:4px solid var(--orange);border-radius:8px;padding:12px 16px;font-size:.92em;margin-top:10px}
+.case .what b{color:var(--navy)}
+table{width:100%;border-collapse:collapse;margin-top:12px;font-size:.9em}
+th,td{border:1px solid var(--line);padding:9px 12px;text-align:right}
+th{background:#eef2f7;color:var(--navy);font-weight:800}
+td.y{color:#15803d;font-weight:800}
+td.n{color:#b91c1c;font-weight:800}
+.note{background:#fff7ed;border:1px solid #fed7aa;border-radius:12px;padding:14px 18px;font-size:.9em;color:#7c2d12}
+</style>
+</head>
+<body>
+<header><b>🔬 مقارنة بصرية — لتفهم الفرق بنفسك</b><a href="index.html">← الموقع</a></header>
+<div class="wrap">
+
+  <div class="intro">
+    <h2>الفرق في جملة واحدة</h2>
+    <p><b>النص المنسّق</b> = نفس كلامك، لكن بخطوط وألوان وشكل جميل. لا يُضاف أي معلومة جديدة.</p>
+    <p><b>الإنفوجرافيك الحقيقي</b> = <b>رسم بياني</b> يُبنى من أرقام: أعمدة بأطوال حقيقية، أو خط زمني بمواقع حقيقية. القارئ يفهم العلاقة من الشكل نفسه قبل أن يقرأ.</p>
+    <p style="color:#b45309;font-weight:700">⚠️ كلاهما لا يرسم صوراً فوتوغرافية أو مجسّمات. لا يوجد نموذج توليد صور في هذا الإعداد.</p>
+  </div>
+
+  <div class="case">
+    <h3>١) نص منسّق — ما ينتجه المولّد الحالي<span class="tag no">لا يحتوي رسماً بيانياً</span></h3>
+    <img src="samples/01_carousel_text.png" alt="شريحة كاروسيل نصية">
+    <div class="what">
+      <b>ما تراه:</b> شريحة 1080×1350 بهوية القناة — رقم الشريحة، عنوان، متن، شريط الشعار.<br>
+      <b>المصدر:</b> النص المكتوب لموضوع P1-002 حرفياً.<br>
+      <b>القيمة:</b> سرعة وسهولة نشر — دقيقة واحدة بدل ساعة تصميم.<br>
+      <b>الحد:</b> لو كان في النص «6 نقاط»، لا يظهر فرق الأحجام بينها بصرياً — القارئ يقرأ كل شيء بنفس النبرة.
+    </div>
+  </div>
+
+  <div class="case">
+    <h3>٢) إنفوجرافيك حقيقي — رسم أعمدة<span class="tag yes">يقرأ الأرقام ويرسمها</span></h3>
+    <img src="samples/02_infographic_chart.png" alt="رسم بياني — توزيع القاعدة على المحاور">
+    <div class="what">
+      <b>ما تراه:</b> رسم بياني حقيقي. طول كل عمود محسوب من الرقم نفسه — 115 أطول من 93.<br>
+      <b>البيانات:</b> قاعدة موضوعات القناة الفعلية (614 موضوعاً موزعة على 6 محاور).<br>
+      <b>الميزة:</b> القارئ يرى بأي محور بدأت القناة تتشبّع — لا يحتاج قراءة 6 أرقام ومقارنتها ذهنياً.<br>
+      <b>هذا هو «الإنفوجرافيك» بالمعنى الحقيقي</b> — وليس نصاً منسّقاً.
+    </div>
+  </div>
+
+  <div class="case">
+    <h3>٣) إنفوجرافيك حقيقي — خط زمني موثّق<span class="tag yes">يرتّب أحداثاً حقيقية</span></h3>
+    <img src="samples/03_infographic_timeline.png" alt="خط زمني — محطات مخططات ولي العهد">
+    <div class="what">
+      <b>ما تراه:</b> خط زمني بمواقع حقيقية على المحور — وكل نقطة تحمل تاريخها ومصدرها.<br>
+      <b>الحدث:</b> ثلاث محطات موثّقة رسمياً في «مخططات ولي العهد» بمكة (1,065 أرضاً · منافسة 9-ط · مهلة الكراسة).<br>
+      <b>الميزة:</b> تُظهر التسلسل الزمني فوراً — وهذا جوهر التحليل، لا مجرد سرد.<br>
+      <b>وفيها شرطنا الصارم:</b> المصدر مكتوب أسفل الصورة. بلا مصدر — لا يُنشر.
+    </div>
+  </div>
+
+  <div class="case">
+    <h3>مقارنة مباشرة</h3>
+    <table>
+      <tr><th>السؤال</th><th>نص منسّق</th><th>إنفوجرافيك حقيقي</th></tr>
+      <tr><td>يحوّل مقالك إلى شكل قابل للنشر؟</td><td class="y">✔</td><td class="y">✔</td></tr>
+      <tr><td>يرسم أعمدة/خطوطاً من أرقام؟</td><td class="n">✘</td><td class="y">✔</td></tr>
+      <tr><td>يُظهر الفرق بين 115 و 93 بصرياً؟</td><td class="n">✘</td><td class="y">✔</td></tr>
+      <tr><td>يحتاج بيانات مرتّبة أولاً؟</td><td class="n">✘</td><td class="y">✔ (شرط)</td></tr>
+      <tr><td>يُرسم تلقائياً بضغطة زر؟</td><td class="y">✔</td><td class="y">✔ بعد تجهيز الجدول</td></tr>
+      <tr><td>يرسم صورة أو مجسّماً أو مشهداً؟</td><td class="n">✘</td><td class="n">✘</td></tr>
+      <tr><td>يولّد صورة بالذكاء الاصطناعي؟</td><td class="n">✘</td><td class="n">✘</td></tr>
+    </table>
+  </div>
+
+  <div class="note">
+    <b>ملاحظة تقنية مهمة:</b> الصور الثلاث رُسمت بخط عربي كامل الأشكال (Noto Sans Arabic) لأن خط Cairo المُثبّت محلياً كان <b>يفقد 5 أشكال حروف</b> — أي أن صورة المعاينة الاجتماعية كانت ستظهر بمربعات فارغة. أُعيد توليدها كلها بالخط الصحيح.
+  </div>
+
+</div>
+</body>
+</html>

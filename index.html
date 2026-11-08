@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>إبداعات هندسية — Engineering 540 | من قناة معلومات إلى منصة معرفة هندسية وعقارية</title>
-<meta name="description" content="المنظومة التحريرية والتشغيلية الكاملة لقناة إبداعات هندسية: 6 محاور، 614 موضوعاً موثقاً، 19 سلسلة، خطة إنتاج 90 يوماً، نماذج محتوى فعلي، نظام تحقق صارم، وسلسلة مكة تبني. إعداد: عبدالمجيد الفقيه — مهندس مدني.">
+<meta name="description" content="المنظومة التحريرية والتشغيلية الكاملة لقناة إبداعات هندسية: 6 محاور، 614 موضوعاً مفهرساً، 19 سلسلة، خطة إنتاج 90 يوماً، نماذج محتوى فعلي، نظام تحقق صارم، وسلسلة مكة تبني. إعداد: عبدالمجيد الفقيه — مهندس مدني.">
 <meta name="author" content="عبدالمجيد الفقيه — مهندس مدني">
 <meta property="og:title" content="إبداعات هندسية — Engineering 540">
-<meta property="og:description" content="منصة معرفة هندسية وعقارية سعودية: 614 موضوعاً موثقاً، 19 سلسلة، خطة 90 يوماً، وسلسلة مكة تبني.">
+<meta property="og:description" content="منصة معرفة هندسية وعقارية سعودية: 614 موضوعاً مفهرساً، 19 سلسلة، خطة 90 يوماً، وسلسلة مكة تبني.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://eng540.github.io/engineering540/og-image.png">
 <meta property="og:image:width" content="1200">
@@ -375,9 +375,9 @@ footer .flinks{margin:12px 0;display:flex;gap:14px;justify-content:center;flex-w
 <section id="library" style="background:#eef2f7">
   <div class="wrap">
     <div class="sec-head">
-      <span class="k">مكتمل — 614 موضوعاً مكتوباً</span>
-      <h2>مكتبة المحتوى الجاهز للنشر</h2>
-      <p>كل موضوع من الـ614 كُتب محتواه كاملاً بنبرة القناة ونظام التحقق والوسوم، ورُفع إلى المستودع دفعة بدفعة. اضغط «اقرأ النص الكامل» لقراءة أي موضوع مباشرة — بلا تحميل وبلا تسجيل.</p>
+      <span class="k">مكتبة ملفات المحتوى — 614 معرفاً مفهرساً</span>
+      <h2>مكتبة ملفات المحتوى</h2>
+      <p>تعرض المكتبة ملفات المحتوى الموجودة في المستودع. وجود الملف لا يعني اكتمال مراجعته الفنية أو النظامية أو اعتماده للنشر؛ اقرأ حالة المراجعة داخل كل ملف وسجل التحقق قبل استخدامه.</p>
     </div>
     <div class="libbar">
       <div class="prog"><div class="progfill" id="libProg"></div></div>
@@ -391,7 +391,7 @@ footer .flinks{margin:12px 0;display:flex;gap:14px;justify-content:center;flex-w
     <div class="tcount" id="cCount"></div>
     <div class="clist" id="clist"></div>
     <button class="morebtn" id="cMore">عرض المزيد</button>
-    <div class="ktargets" style="margin-top:22px"><b>كيف تُقرأ الحالة؟</b> «جاهز للنشر» = ملف مكتمل بوسوم تحقق ومصادر — يحتاج مراجعة المؤسس النهائية قبل النشر الفعلي. كل الـ614 موضوعاً مكتملة ومرفوعة في المستودع.</div>
+    <div class="ktargets" style="margin-top:22px"><b>كيف تُقرأ الحالة؟</b> وجود الملف يعني أنه مفهرس ومتاح للقراءة فقط. الاعتماد للنشر يتطلب مراجعة فنية/نظامية وتحققاً من المصادر وتوثيق النتيجة؛ لا يُفترض أن الملفات الـ614 معتمدة.</div>
   </div>
 </section>
 
@@ -652,7 +652,7 @@ function filtered(){
 function priCls(p){return p.startsWith('1')?'p1':''}
 let _cset=null;
 function hasContent(id){
-  if(!window.CONTENT)return true;   // الفهرس يُحمَّل عند الطلب — نفترض التوفر
+  if(!window.CONTENT)return false;
   if(!_cset)_cset=new Set(window.CONTENT.map(x=>x.id));
   return _cset.has(id);
 }
@@ -675,7 +675,7 @@ function card(t){
       <b>المصادر المطلوبة:</b> ${t.src}<br>
       <b>الفرصة التجارية:</b> ${t.com}
       <div class="cactions">${hasContent(t.id)
-        ? `<button class="lread" onclick="event.stopPropagation();openLib('${t.id}')">📖 عرض المحتوى الكامل</button><span class="cnote">مكتوب وجاهز للنشر</span>`
+        ? `<button class="lread" onclick="event.stopPropagation();openLib('${t.id}')">📖 عرض المحتوى الكامل</button><span class="cnote">ملف موجود — الاعتماد غير مثبت</span>`
         : `<span class="cnote nowrite">✍️ المحتوى قيد الكتابة</span>`}</div>
     </div></div>`;
 }
@@ -771,7 +771,7 @@ function mdToHtml(s){
 }
 function inline(t){
   return t.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>')
-    .replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>')
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g,(m,label,url)=>{const u=url.trim();const safe=/^(https?:\/\/|mailto:|\/|\.\.?\/|#)/i.test(u)&&!/^\s*(javascript|data|vbscript):/i.test(u);return safe?'<a href="'+u.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'" target="_blank" rel="noopener noreferrer">'+label+'</a>':label})
     .replace(/`([^`]+)`/g,'<code>$1</code>');
 }
 /* ===== النسخ ===== */

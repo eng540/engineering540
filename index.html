@@ -9,6 +9,15 @@
 <meta property="og:title" content="إبداعات هندسية — Engineering 540">
 <meta property="og:description" content="منصة معرفة هندسية وعقارية سعودية: 614 موضوعاً موثقاً، 19 سلسلة، خطة 90 يوماً، وسلسلة مكة تبني.">
 <meta property="og:type" content="website">
+<meta property="og:image" content="https://eng540.github.io/engineering540/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://eng540.github.io/engineering540/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://eng540.github.io/engineering540/og-image.png">
+<meta name="theme-color" content="#1C2E4A">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -215,6 +224,25 @@ section{padding:56px 18px}
 .modalbody strong{color:var(--navy)}
 .modalbody a{color:var(--orange);font-weight:700}
 .modalbody .load{color:var(--muted);text-align:center;padding:30px}
+/* today — خطة اليوم */
+.tbtn{background:#fff;border:1px solid var(--line);color:var(--navy);border-radius:10px;padding:8px 14px;font-family:inherit;font-weight:800;font-size:.82em;cursor:pointer;white-space:nowrap}
+.tbtn:hover{background:var(--navy);color:#fff}
+.tbtn.primary{background:var(--orange);border-color:var(--orange);color:#fff}
+.tbtn.primary:hover{background:#d96a15}
+.tdnav{flex:1;min-width:200px;text-align:center;font-weight:800;color:var(--navy);font-size:.95em}
+.tdnav small{display:block;font-weight:600;color:var(--muted);font-size:.78em}
+.tday{display:grid;gap:12px}
+.titem{background:#fff;border:1px solid var(--line);border-inline-start:5px solid var(--orange);border-radius:14px;padding:15px 18px;display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+.titem .tmeta{flex:1;min-width:240px}
+.titem .ttype{font-size:.72em;font-weight:800;color:#fff;background:var(--navy);border-radius:99px;padding:3px 10px;display:inline-block;margin-inline-end:6px}
+.titem .tplat{font-size:.72em;font-weight:800;color:#8a4b0f;background:#fff4e6;border-radius:99px;padding:3px 10px;display:inline-block}
+.titem h4{margin:8px 0 4px;font-size:1em;color:var(--navy);line-height:1.6}
+.titem .tser{font-size:.78em;color:var(--muted)}
+.titem .tacts{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.titem .tacts button,.titem .tacts a{background:var(--navy);color:#fff;border:0;border-radius:9px;padding:8px 14px;font-family:inherit;font-weight:800;font-size:.78em;cursor:pointer;text-decoration:none}
+.titem .tacts button:hover,.titem .tacts a:hover{background:var(--orange)}
+.titem.rest{border-inline-start-color:#94a3b8;background:#f8fafc}
+.titem .empty{color:var(--muted);font-weight:700}
 /* footer */
 footer{background:var(--navy2);color:#c3cede;padding:34px 18px;text-align:center;font-size:.85em}
 footer .fbrand{font-weight:900;color:#fff;font-size:1.15em;margin-bottom:6px}
@@ -239,6 +267,7 @@ footer .flinks{margin:12px 0;display:flex;gap:14px;justify-content:center;flex-w
       <a href="#explorer">قاعدة الموضوعات</a>
       <a href="#library">مكتبة المحتوى</a>
       <a href="#plan">خطة 90 يوماً</a>
+      <a href="#today">خطة اليوم</a>
       <a href="#makkah">مكة تبني</a>
       <a href="#docs">الوثائق</a>
       <a class="cta" href="https://t.me/engineering540" target="_blank">القناة على تيليجرام ↗</a>
@@ -331,7 +360,7 @@ footer .flinks{margin:12px 0;display:flex;gap:14px;justify-content:center;flex-w
       <p>كل موضوع مُهيكل بـ15 حقلاً: الجمهور، المشكلة، القيمة، الزاوية، المصادر المطلوبة، وأولويته. اضغط أي موضوع لعرض تفاصيله الكاملة.</p>
     </div>
     <div class="filters">
-      <input id="q" type="search" placeholder="🔎 ابحث في العناوين والمشكلات…">
+      <input id="q" type="search" placeholder="🔎 ابحث بكلمات متعددة: سقف خرساني عزل…">
       <select id="fPillar"><option value="">كل المحاور</option></select>
       <select id="fSer"><option value="">كل السلاسل</option></select>
       <select id="fPri"><option value="">كل الأولويات</option></select>
@@ -355,7 +384,7 @@ footer .flinks{margin:12px 0;display:flex;gap:14px;justify-content:center;flex-w
       <div class="libstats" id="libStats">جارٍ التحميل…</div>
     </div>
     <div class="filters">
-      <input id="cq" type="search" placeholder="🔎 ابحث في المحتوى الجاهز…">
+      <input id="cq" type="search" placeholder="🔎 ابحث في المحتوى: مستخلص تكلفة…">
       <select id="cPillar"><option value="">كل المحاور</option></select>
       <select id="cType"><option value="">كل الأنواع</option></select>
     </div>
@@ -378,7 +407,7 @@ footer .flinks{margin:12px 0;display:flex;gap:14px;justify-content:center;flex-w
     <div class="sec-head">
       <span class="k">التنفيذ</span>
       <h2>خطة الإنتاج — 90 يوماً لمشغّل فردي</h2>
-      <p>108 منتجات مجدولة في تقويم يومي جاهز، بحد 12–20 ساعة أسبوعياً، وابتداءً من الأحد 2026-11-08.</p>
+      <p>117 منتجاً مجدولاً يوماً بيوم من أصل 614 موضوعاً · 75 موضوعاً رئيسياً · 13 حلقة مكة مضمونة أسبوعياً · بحد 12–20 ساعة أسبوعياً، ابتداءً من الأحد 2026-11-08. بقية الموضوعات (535) في قائمة انتظار مرتبة — تجدها في القسم التالي.</p>
     </div>
     <div class="phases">
       <div class="phase"><span class="ph">الشهر 1 · أسابيع 1–4</span><h3>التأسيس — تيليجرام + انستغرام</h3>
@@ -412,6 +441,32 @@ footer .flinks{margin:12px 0;display:flex;gap:14px;justify-content:center;flex-w
       </div>
       <p>منطق 1←6: موضوع واحد يُنتج ستة أشكال — لا محتوى منفصلاً لكل منصة.</p>
     </div>
+  </div>
+</section>
+
+<section id="today">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="k">شاشة التنفيذ</span>
+      <h2>خطة اليوم — ماذا أنشر الآن؟</h2>
+      <p>اختر اليوم أو الأسبوع، واقرأ المنتجات المطلوبة مع أزرار نسخ مباشرة. التاريخ يتحرك تلقائياً، ويمكنك التنقل يدوياً بين الأيام.</p>
+    </div>
+    <div class="libbar">
+      <button class="tbtn" id="tdPrev">→ السابق</button>
+      <div class="tdnav" id="tdNav">جارٍ التحميل…</div>
+      <button class="tbtn" id="tdNext">التالي ←</button>
+      <button class="tbtn primary" id="tdToday">اليوم</button>
+    </div>
+    <div class="tday" id="tdItems"></div>
+
+    <div class="sec-head" style="margin-top:44px">
+      <span class="k">الاحتياطي</span>
+      <h2>قائمة الانتظار — موضوعات جاهزة للسحب</h2>
+      <p>مرتبة بالأولوية ثم مكة. تُسحب الأولى عند تعطّل منتج أو وجود أسبوع فائض. <a href="docs/calendar/reserve_queue.csv" target="_blank">تنزيل القائمة الكاملة CSV</a></p>
+    </div>
+    <div class="tcount" id="rqCount"></div>
+    <div class="tlist" id="rqList"></div>
+    <button class="morebtn" id="rqMore">عرض المزيد</button>
   </div>
 </section>
 
@@ -526,7 +581,6 @@ footer .flinks{margin:12px 0;display:flex;gap:14px;justify-content:center;flex-w
 </footer>
 
 <script src="topics.js"></script>
-<script src="content.js"></script>
 <script>
 /* ===== بيانات ثابتة ===== */
 const PILLARS=[
@@ -553,13 +607,18 @@ const DOCS=[['docs/README.md','📚','الفهرس والملخص التنفيذ
  ['docs/12_نظام_التشغيل_والأتمتة.md','⚙️','12 · التشغيل والأتمتة','الحلقة الأسبوعية والصمود'],
  ['docs/14_مكة_المكرمة_التطبيقية.md','🕋','14 · مكة المكرمة','قواعد المدينة والخريطة'],
  ['docs/topics/Engineering540_Topics_Master.csv','⬇️','القاعدة الكاملة CSV','تحميل 614 موضوعاً'],
- ['docs/calendar/90day_calendar.csv','⬇️','تقويم 90 يوماً CSV','تحميل الجدول اليومي']];
+ ['carousel.html','🎨','مولّد الكاروسيل','تحويل أي موضوع إلى شرائح PNG'],
+ ['docs/15_القوالب_البصرية.md','🎨','15 · القوالب البصرية','المقاسات والألوان وأنواع الشرائح'],
+ ['docs/templates/verification_log.csv','🛡️','سجل التحقق','117 منتجاً جاهزاً للتوثيق'],
+ ['docs/templates/kpi_targets.csv','🎯','أهداف KPI','أهداف 13 أسبوعاً'],
+ ['docs/calendar/90day_calendar.csv','⬇️','تقويم 90 يوماً CSV','تحميل الجدول اليومي'],
+ ['docs/calendar/reserve_queue.csv','⬇️','قائمة الانتظار CSV','تحميل 535 موضوعاً احتياطياً']];
 const KPIS=[['الوصول','20%','نمو المشتركين والمتابعين عبر المنصات'],['جودة وتفاعل','35%','حفظ ≥6% · إكمال فيديو ≥45% · جودة القراءة'],['العلاقة','25%','ردود ثنائية · أسئلة أسبوعية · إشارات اهتمام'],['قيمة تجارية','20%','مكالمات · عروض مرفوعة · أول تحويل']];
 
 /* ===== إحصاءات ===== */
 const mk=TOPICS.filter(t=>t.geo!=='عام سعودي').length;
 const com=TOPICS.filter(t=>t.com!=='لا').length;
-const stats=[[TOPICS.length,'موضوعاً مُهيكلاً'],['19','سلسلة تحريرية'],['6','محاور رئيسية'],['8,456','مشترك بالقناة'],['108','منتجاً في 90 يوماً'],[mk,'موضوعاً وسَم مكة']];
+const stats=[[TOPICS.length,'موضوعاً مُهيكلاً'],['19','سلسلة تحريرية'],['6','محاور رئيسية'],['8,456','مشترك بالقناة'],['117','منتجاً في 90 يوماً'],[mk,'موضوعاً وسَم مكة']];
 document.getElementById('stats').innerHTML=stats.map(s=>`<div class="stat"><b>${s[0]}</b><span>${s[1]}</span></div>`).join('');
 
 /* ===== محاور ===== */
@@ -583,16 +642,18 @@ fill('fPillar',uniq('pillar'));fill('fSer',uniq('ser').filter(s=>s!=='لا'));
 fill('fPri',['1-أساسية','2-مهمة','3-إثرائية']);fill('fGeo',uniq('geo'));
 let shown=0,PAGE=36;
 function norm(s){return s.replace(/[إأآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').toLowerCase()}
+function matchAll(hay,q){return norm(q).split(/\s+/).filter(Boolean).every(w=>hay.includes(w))}
 function filtered(){
-  const q=norm($('q').value.trim()),p=$('fPillar').value,s=$('fSer').value,pr=$('fPri').value,g=$('fGeo').value;
+  const q=$('q').value.trim(),p=$('fPillar').value,s=$('fSer').value,pr=$('fPri').value,g=$('fGeo').value;
   return TOPICS.filter(t=>
-    (!q||norm(t.title+t.prob+t.sub).includes(q))&&
+    (!q||matchAll(norm(t.title+' '+t.prob+' '+t.sub+' '+t.val+' '+t.ang+' '+t.ser+' '+t.aud+' '+t.geo+' '+t.id),q))&&
     (!p||t.pillar===p)&&(!s||t.ser===s)&&(!pr||t.pri===pr)&&(!g||t.geo===g));
 }
 function priCls(p){return p.startsWith('1')?'p1':''}
 let _cset=null;
 function hasContent(id){
-  if(!_cset)_cset=new Set((window.CONTENT||[]).map(x=>x.id));
+  if(!window.CONTENT)return true;   // الفهرس يُحمَّل عند الطلب — نفترض التوفر
+  if(!_cset)_cset=new Set(window.CONTENT.map(x=>x.id));
   return _cset.has(id);
 }
 function card(t){
@@ -633,17 +694,36 @@ function render(reset){
 $('moreBtn').onclick=()=>render(false);
 render(true);
 
-/* ===== مكتبة المحتوى الجاهز ===== */
-const LIB=(window.CONTENT||[]);
-const TOTAL=614;
+/* ===== التحميل الذكي للفهارس (توفير ~110KB في التحميل الأول) ===== */
+let LIB=[];
+let TOTAL=614;
+let _contentP=null,_planP=null;
+function loadScript(src){return new Promise((res,rej)=>{const s=document.createElement('script');s.src=src;s.onload=res;s.onerror=()=>rej(new Error('تعذّر تحميل '+src));document.head.appendChild(s)})}
+function ensureContent(){
+  if(window.CONTENT){LIB=window.CONTENT;TOTAL=window.CONTENT_TOTAL||LIB.length;return Promise.resolve(LIB)}
+  if(!_contentP)_contentP=loadScript('content.js').then(()=>{LIB=window.CONTENT||[];TOTAL=window.CONTENT_TOTAL||LIB.length;return LIB});
+  return _contentP;
+}
+function ensurePlan(){
+  if(window.PLAN)return Promise.resolve(window.PLAN);
+  if(!_planP)_planP=loadScript('plan.js');
+  return _planP;
+}
+function whenVisible(sel,fn){
+  const el=document.querySelector(sel);
+  if(!el)return;
+  if(!('IntersectionObserver' in window)){fn();return}
+  const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){io.disconnect();fn()}})},{rootMargin:'500px'});
+  io.observe(el);
+}
 const PAGE2=12;
 let libShown=0;
 function libFiltered(){
-  const q=norm($('cq').value||''),pi=$('cPillar').value,ty=$('cType').value;
+  const q=$('cq').value||'',pi=$('cPillar').value,ty=$('cType').value;
   return LIB.filter(x=>{
     if(pi&&x.pillar!==pi)return false;
     if(ty&&x.type!==ty)return false;
-    if(q){const s=norm(x.id+' '+x.title+' '+x.type+' '+x.series+' '+x.excerpt);if(!s.includes(q))return false}
+    if(q&&!matchAll(norm(x.id+' '+x.title+' '+x.type+' '+x.series+' '+x.platforms+' '+x.excerpt),q))return false;
     return true;
   });
 }
@@ -724,18 +804,25 @@ function copyContent(mode){
   }
 }
 function openLib(id){
+  $('mTitle').textContent=id;
+  $('mBody').innerHTML='<div class="load">جارٍ التحميل…</div>';
+  $('modal').classList.add('open');
+  document.body.style.overflow='hidden';
+  ensureContent().then(()=>openLibNow(id)).catch(()=>{
+    $('mBody').innerHTML='<div class="load">تعذّر تحميل فهرس المحتوى — تحقق من الاتصال ثم أعد المحاولة.</div>';
+  });
+}
+function openLibNow(id){
   const x=LIB.find(v=>v.id===id);
   if(!x){
     mRawMd='';mClean='';
     $('mTitle').textContent=id;
     $('mBody').innerHTML='<div class="load">✍️ محتوى هذا الموضوع قيد الكتابة ولم يُرفع بعد.</div>';
-    $('modal').classList.add('open');document.body.style.overflow='hidden';return;
+    return;
   }
   $('mTitle').textContent=x.id+' · '+x.title;
   $('mBody').innerHTML='<div class="load">جارٍ التحميل…</div>';
   mRawMd='';mClean='';
-  $('modal').classList.add('open');
-  document.body.style.overflow='hidden';
   fetch(x.path).then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.text()})
     .then(t=>{
       mRawMd=t;
@@ -745,6 +832,7 @@ function openLib(id){
       $('mBody').innerHTML=mdToHtml(t)+`<div class="mfoot">
         <button class="mbtn" onclick="copyContent('clean')">📋 نسخ للنشر</button>
         <button class="mbtn" id="mCopyRaw" onclick="copyContent('raw')">⌨️ نسخ Markdown الخام</button>
+        <a class="mbtn" style="text-decoration:none" href="carousel.html?id=${x.id}" target="_blank">🎨 توليد كاروسيل</a>
         <a class="mbtn" style="text-decoration:none" href="${x.path}" target="_blank">فتح الملف الأصلي</a>
       </div>`;
     })
@@ -752,7 +840,9 @@ function openLib(id){
 }
 function closeModal(){const m=$('modal');if(m&&m.classList.contains('open')){m.classList.remove('open');document.body.style.overflow=''}}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
-if(LIB.length){
+function initLibrary(){
+  if(window._libReady)return;
+  window._libReady=true;
   const pMap={P1:'الهندسة المدنية والتطبيق العملي',P2:'المقاولات وإدارة المشاريع',P3:'التطوير العقاري والسوق السعودي',P4:'التقنية والذكاء الاصطناعي',P5:'الفرص والأعمال والعلاقات',P6:'الهوية المهنية والقيادة الفكرية'};
   const present=[...new Set(LIB.map(x=>x.pillar))].sort();
   $('cPillar').innerHTML+=present.map(p=>`<option value="${p}">${pMap[p]||p}</option>`).join('');
@@ -760,10 +850,93 @@ if(LIB.length){
   ['cq','cPillar','cType'].forEach(id=>$(id).addEventListener(id==='cq'?'input':'change',()=>renderLib(true)));
   $('cMore').onclick=()=>renderLib(false);
   renderLib(true);
-}else{
-  $('libStats').textContent='لا توجد ملفات محتوى بعد';
-  $('cCount').textContent='ستظهر المحتوى هنا فور رفع أول دفعة';
 }
+whenVisible('#library',()=>ensureContent().then(initLibrary).catch(()=>{
+  $('libStats').textContent='تعذّر تحميل فهرس المحتوى';
+  $('cCount').textContent='أعد تحميل الصفحة للمحاولة مرة أخرى';
+}));
+
+/* ===== خطة اليوم ===== */
+let PLAN=[],RESERVE=[],tdIdx=0,rqShown=0,RQPAGE=24;
+function planDates(){return [...new Set(PLAN.map(x=>x.d))]}
+function todayIdx(){
+  if(!window.PLAN_START)return 0;
+  const s=new Date(window.PLAN_START+'T00:00:00');
+  const now=new Date();now.setHours(0,0,0,0);
+  const diff=Math.round((now-s)/86400000);
+  return Math.max(0,Math.min(planDates().length-1,diff));
+}
+function renderDay(){
+  const dates=planDates();if(!dates.length)return;
+  const d=dates[tdIdx];
+  const items=PLAN.filter(x=>x.d===d);
+  const head=items[0]||{};
+  $('tdNav').innerHTML=`${d}<small>${head.day||''} · الأسبوع ${head.wk||''} · ${head.mo||''} · يوم ${tdIdx+1} من ${dates.length}</small>`;
+  $('tdItems').innerHTML=items.map(it=>{
+    if(!it.id)return `<div class="titem rest"><div class="tmeta"><span class="ttype">${it.ty||'راحة'}</span><h4>${it.n||'يوم راحة'}</h4></div></div>`;
+    return `<div class="titem">
+      <div class="tmeta">
+        <span class="ttype">${it.ty}</span><span class="tplat">${it.p}</span>
+        <h4>${it.t}</h4>
+        <div class="tser">${it.id}${it.s?' · سلسلة: '+it.s:''}${it.n?' · '+it.n:''}</div>
+      </div>
+      <div class="tacts">
+        <button onclick="openLib('${it.id}')">📖 المحتوى</button>
+        <button onclick="copyTopic('${it.id}',this)">📋 نسخ للنشر</button>
+      </div></div>`;
+  }).join('')||'<div class="titem rest"><div class="tmeta"><h4>لا منتجات في هذا اليوم</h4></div></div>';
+  $('tdPrev').disabled=tdIdx<=0;
+  $('tdNext').disabled=tdIdx>=dates.length-1;
+}
+function copyTopic(id,btn){
+  if(btn&&btn.dataset.busy)return;
+  if(btn){btn.dataset.busy='1';btn.textContent='… جارٍ'}
+  ensureContent().then(()=>{
+    const x=LIB.find(v=>v.id===id);
+    if(!x)throw new Error('لا يوجد محتوى');
+    return fetch(x.path).then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.text()}).then(t=>{
+      const body=cleanText(t);const first=(body.split('\n')[0]||'').trim();
+      const txt=(first===x.title.trim())?body:('# '+x.title+'\n\n'+body);
+      if(btn){btn.dataset.busy='';btn.textContent='📋 نسخ للنشر'}
+      copyText(txt,btn,'📋 نسخ للنشر');
+    });
+  }).catch(()=>{
+    if(btn){btn.textContent='تعذّر النسخ';setTimeout(()=>{btn.textContent='📋 نسخ للنشر';btn.dataset.busy=''},1800)}
+  });
+}
+function renderReserve(reset){
+  if(reset){rqShown=0;$('rqList').innerHTML=''}
+  const chunk=RESERVE.slice(rqShown,rqShown+RQPAGE);
+  $('rqList').insertAdjacentHTML('beforeend',chunk.map(it=>`
+    <div class="titem">
+      <div class="tmeta">
+        <span class="ttype">${it.pr}</span><span class="tplat">${it.wk}</span>
+        <h4>${it.t}</h4>
+        <div class="tser">${it.id} · ${it.pi} · ${it.ty}${it.g!=='عام سعودي'?' · 📍 '+it.g:''}${it.s?' · سلسلة: '+it.s:''}</div>
+      </div>
+      <div class="tacts">
+        <button onclick="openLib('${it.id}')">📖 المحتوى</button>
+        <button onclick="copyTopic('${it.id}',this)">📋 نسخ للنشر</button>
+      </div></div>`).join(''));
+  rqShown+=chunk.length;
+  $('rqCount').textContent=`عرض ${Math.min(rqShown,RESERVE.length)} من ${window.RESERVE_TOTAL||RESERVE.length} موضوعاً في قائمة الانتظار`;
+  $('rqMore').style.display=rqShown<RESERVE.length?'block':'none';
+}
+function initPlan(){
+  if(window._planReady)return;
+  window._planReady=true;
+  PLAN=window.PLAN||[];RESERVE=window.RESERVE||[];
+  tdIdx=todayIdx();
+  $('tdPrev').onclick=()=>{if(tdIdx>0){tdIdx--;renderDay()}};
+  $('tdNext').onclick=()=>{if(tdIdx<planDates().length-1){tdIdx++;renderDay()}};
+  $('tdToday').onclick=()=>{tdIdx=todayIdx();renderDay()};
+  $('rqMore').onclick=()=>renderReserve(false);
+  renderDay();
+  renderReserve(true);
+}
+whenVisible('#today',()=>ensurePlan().then(initPlan).catch(()=>{
+  $('tdNav').textContent='تعذّر تحميل الخطة';
+}));
 
 /* ===== KPI ===== */
 document.getElementById('kpis').innerHTML=KPIS.map(k=>`<div class="kpi"><h4>${k[0]}<span>${k[1]}</span></h4><div class="bar"><div class="fill" style="width:${k[1]}"></div></div><p>${k[2]}</p></div>`).join('');

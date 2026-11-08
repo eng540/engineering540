@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>مولّد الكاروسيل — إبداعات هندسية</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1C2E4A;--navy2:#13203A;--orange:#E87722;--bg:#f5f7fa;--card:#fff;--line:#e3e8ef;--txt:#243044;--muted:#64748b}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Cairo',system-ui,sans-serif;background:var(--bg);color:var(--txt);line-height:1.8}
+header{background:linear-gradient(90deg,var(--navy2),var(--navy));color:#fff;padding:14px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+header b{font-size:1.05em}
+header .sp{margin-inline-start:auto;font-size:.82em;opacity:.85}
+.wrap{max-width:1150px;margin:0 auto;padding:22px 18px 60px}
+.bar{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:18px}
+input,select,button{font-family:inherit;font-size:.9em}
+input,select{padding:9px 12px;border:1px solid var(--line);border-radius:9px;min-width:180px}
+button{background:var(--navy);color:#fff;border:0;border-radius:9px;padding:9px 16px;font-weight:800;cursor:pointer}
+button:hover{background:var(--orange)}
+button.o{background:var(--orange)}
+button.o:hover{background:#d96a15}
+button:disabled{opacity:.5;cursor:not-allowed}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px}
+.sl{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px;box-shadow:0 1px 3px rgba(16,24,40,.06)}
+.sl canvas{width:100%;height:auto;border-radius:8px;display:block;background:var(--navy)}
+.sl .ft{display:flex;gap:8px;align-items:center;margin-top:8px}
+.sl .ft span{font-size:.76em;color:var(--muted);font-weight:700}
+.sl .ft button{margin-inline-start:auto;padding:6px 12px;font-size:.78em}
+.hint{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 18px;color:var(--muted);font-size:.88em;margin-bottom:18px}
+.hint b{color:var(--navy)}
+.pill{background:#eef2f7;border-radius:99px;padding:3px 12px;font-size:.78em;font-weight:700;color:var(--navy)}
+textarea{width:100%;min-height:150px;border:1px solid var(--line);border-radius:10px;padding:12px;font-family:inherit;font-size:.9em;line-height:1.9}
+</style>
+</head>
+<body>
+<header>
+  <b>🎨 مولّد الكاروسيل — إبداعات هندسية</b>
+  <span class="sp">Engineering 540 · مقاس 1080×1350 · تصدير PNG</span>
+  <a href="index.html" style="color:#ffd9b3;font-weight:800;text-decoration:none">← الموقع</a>
+</header>
+
+<div class="wrap">
+  <div class="hint">
+    <b>كيف يعمل؟</b> اختر موضوعاً من القاعدة، أو الصق نص الشرائح يدوياً — ثم نزّل الصور. كل شريحة تُصدَّر PNG بمقاس 1080×1350 جاهزة لانستغرام.
+  </div>
+
+  <div class="bar">
+    <label>الموضوع:</label>
+    <select id="topicSel"><option value="">— اختر موضوعاً —</option></select>
+    <button id="loadBtn">تحميل الشرائح</button>
+    <button class="o" id="dlAll">تنزيل كل الشرائح PNG</button>
+    <span class="pill" id="status">جاهز</span>
+  </div>
+
+  <div class="bar" style="display:block">
+    <div style="margin-bottom:8px;font-weight:800;color:var(--navy)">أو الصق نص الشرائح (كل شريحة تبدأ بـ «الشريحة N:»)</div>
+    <textarea id="manual" placeholder="الشريحة 1: ...&#10;الشريحة 2: ..."></textarea>
+    <div style="margin-top:10px"><button id="renderManual">توليد الشرائح من النص</button></div>
+  </div>
+
+  <div class="grid" id="slides"></div>
+</div>
+
+<script src="content.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const W=1080,H=1350;
+const NAVY='#13203A',NAVY2='#1C2E4A',ORANGE='#E87722',WHITE='#ffffff',LIGHT='#ffd9b3',MUTED='#c3cede';
+let current={id:'',title:'',slides:[]};
+
+/* تعبئة قائمة الموضوعات */
+(function(){
+  const c=window.CONTENT||[];
+  const sel=$('topicSel');
+  sel.innerHTML+='<optgroup label="مكة المكرمة">'+c.filter(x=>x.pillar==='P3').slice(0,80).map(x=>`<option value="${x.id}">${x.id} — ${x.title.slice(0,60)}</option>`).join('')+'</optgroup>';
+  sel.innerHTML+='<optgroup label="كل الموضوعات">'+c.map(x=>`<option value="${x.id}">${x.id} — ${x.title.slice(0,60)}</option>`).join('')+'</optgroup>';
+  const q=new URLSearchParams(location.search).get('id');
+  if(q){sel.value=q;loadTopic(q)}
+})();
+
+function splitSlides(txt){
+  const body=txt.replace(/^---[\s\S]*?---\s*/,'');
+  const parts=body.split(/الشريحة\s*\d+\s*[:：]/).map(s=>s.trim()).filter(Boolean);
+  if(parts.length>1)return parts;
+  // بديل: تقسيم بالفقرات الطويلة
+  return body.split(/\n\s*\n/).map(s=>s.trim()).filter(s=>s.length>40).slice(0,10);
+}
+function loadTopic(id){
+  const x=(window.CONTENT||[]).find(v=>v.id===id);
+  if(!x)return;
+  $('status').textContent='جارٍ التحميل…';
+  fetch(x.path).then(r=>r.text()).then(t=>{
+    current={id:x.id,title:x.title,slides:splitSlides(t)};
+    render();
+    $('status').textContent=current.slides.length+' شريحة';
+  }).catch(()=>{$('status').textContent='تعذّر التحميل'});
+}
+$('loadBtn').onclick=()=>{const v=$('topicSel').value;if(v)loadTopic(v)};
+$('renderManual').onclick=()=>{
+  const t=$('manual').value.trim();if(!t)return;
+  current={id:'يدوي',title:'شرائح مخصّصة',slides:splitSlides(t)};
+  render();$('status').textContent=current.slides.length+' شريحة';
+};
+
+function wrap(ctx,text,maxW){
+  const words=text.split(/\s+/);const lines=[];let line='';
+  for(const w of words){
+    const test=line?line+' '+w:w;
+    if(ctx.measureText(test).width>maxW&&line){lines.push(line);line=w}
+    else line=test;
+  }
+  if(line)lines.push(line);
+  return lines;
+}
+function drawSlide(idx,total,headline,body){
+  const c=document.createElement('canvas');c.width=W;c.height=H;
+  const x=c.getContext('2d');
+  // خلفية متدرجة
+  const g=x.createLinearGradient(0,0,W,H);g.addColorStop(0,NAVY);g.addColorStop(1,NAVY2);
+  x.fillStyle=g;x.fillRect(0,0,W,H);
+  // شبكة خفيفة
+  x.strokeStyle='rgba(255,255,255,.045)';x.lineWidth=1;
+  for(let i=0;i<W;i+=72){x.beginPath();x.moveTo(i,0);x.lineTo(i,H);x.stroke()}
+  for(let j=0;j<H;j+=72){x.beginPath();x.moveTo(0,j);x.lineTo(W,j);x.stroke()}
+  // شريط علوي
+  x.fillStyle=ORANGE;x.fillRect(0,0,W,12);
+  // ترويسة
+  x.fillStyle=LIGHT;x.font='700 30px Cairo, sans-serif';x.textAlign='right';
+  x.fillText('إبداعات هندسية · Engineering 540',W-64,96);
+  x.fillStyle=MUTED;x.font='600 26px Cairo, sans-serif';
+  x.fillText(current.id,W-64,140);
+  // رقم الشريحة (دائرة برتقالية)
+  x.beginPath();x.arc(96,96,46,0,Math.PI*2);x.fillStyle=ORANGE;x.fill();
+  x.fillStyle=WHITE;x.font='900 40px Cairo, sans-serif';x.textAlign='center';x.textBaseline='middle';
+  x.fillText(String(idx),96,100);
+  x.textBaseline='alphabetic';
+  // كتلة المحتوى
+  const padX=96,maxW=W-padX*2;
+  let y=280;
+  x.textAlign='right';x.direction='rtl';
+  // العنوان: أول 90 حرفاً
+  const hl=headline.length>110?headline.slice(0,110)+'…':headline;
+  x.fillStyle=WHITE;x.font='900 62px Cairo, sans-serif';
+  const hlLines=wrap(x,hl,maxW).slice(0,3);
+  hlLines.forEach(l=>{y+=78;x.fillText(l,W-padX,y)});
+  y+=40;
+  // خط فاصل برتقالي
+  x.fillStyle=ORANGE;x.fillRect(W-padX-140,y,140,8);
+  y+=70;
+  // المتن
+  if(body){
+    x.fillStyle=MUTED;x.font='600 40px Cairo, sans-serif';
+    const bl=wrap(x,body,maxW).slice(0,12);
+    bl.forEach(l=>{y+=62;x.fillText(l,W-padX,y)});
+  }
+  // تذييل
+  x.fillStyle=ORANGE;x.fillRect(0,H-96,300,96);
+  x.fillStyle=WHITE;x.font='800 30px Cairo, sans-serif';x.textAlign='right';
+  x.fillText('صناعة الأثر لا مجرد الإنجاز',W-64,H-40);
+  x.textAlign='left';x.fillStyle=LIGHT;x.font='700 28px Cairo, sans-serif';
+  x.fillText(idx+' / '+total,64,H-42);
+  return c;
+}
+function render(){
+  const box=$('slides');box.innerHTML='';
+  const total=current.slides.length;
+  current.slides.forEach((s,i)=>{
+    const m=s.split(/[—–-]\s/);
+    const headline=(m.length>1?m[0]:s).trim();
+    const body=(m.length>1?m.slice(1).join(' — '):'').trim();
+    const cv=drawSlide(i+1,total,headline,body);
+    const d=document.createElement('div');d.className='sl';
+    d.appendChild(cv);
+    const ft=document.createElement('div');ft.className='ft';
+    ft.innerHTML=`<span>شريحة ${i+1}</span>`;
+    const b=document.createElement('button');b.textContent='تنزيل PNG';
+    b.onclick=()=>dl(cv,current.id+'_slide'+(i+1)+'.png');
+    ft.appendChild(b);d.appendChild(ft);
+    box.appendChild(d);
+  });
+}
+function dl(canvas,name){
+  const a=document.createElement('a');
+  a.href=canvas.toDataURL('image/png');a.download=name;a.click();
+}
+$('dlAll').onclick=()=>{
+  const cs=[...document.querySelectorAll('#slides canvas')];
+  if(!cs.length){alert('لا توجد شرائح');return}
+  cs.forEach((c,i)=>setTimeout(()=>dl(c,current.id+'_slide'+(i+1)+'.png'),i*450));
+};
+document.fonts&&document.fonts.ready.then(()=>{if(current.slides.length)render()});
+</script>
+</body>
+</html>

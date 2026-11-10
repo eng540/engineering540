@@ -655,9 +655,10 @@ function priCls(p){return p.startsWith('1')?'p1':''}
 let _cset=null;
 let contentIndexState='loading';
 function hasContent(id){
-  if(contentIndexState!=='loaded')return null;
-  if(!_cset)_cset=new Set((window.CONTENT||[]).map(x=>x.id));
-  return _cset.has(id);
+  if(contentIndexState==='error')return null;
+  if(contentIndexState!=='loaded'||!Array.isArray(window.CONTENT))return null;
+  if(!_cset)_cset=new Set(window.CONTENT.map(x=>String(x.id).trim()));
+  return _cset.has(String(id).trim());
 }
 function card(t){
   const com=t.com!=='لا'?`<span class="tag" style="background:#e5f3ef;color:#0e7a5f">💼 فرصة تجارية</span>`:'';
@@ -693,8 +694,14 @@ function render(reset){
   $('tcount').textContent=`عرض ${Math.min(shown,items.length)} من ${items.length} موضوعاً`;
   $('moreBtn').style.display=shown<items.length?'block':'none';
 }
+// Every filter/search refresh waits for the same content index used by the cards.
 ['q','fPillar','fSer','fPri','fGeo'].forEach(id=>{
-  $(id).addEventListener(id==='q'?'input':'change',()=>render(true));
+  $(id).addEventListener(id==='q'?'input':'change',()=>{
+    ensureContent().then(()=>render(true)).catch(()=>{
+      contentIndexState='error';
+      render(true);
+    });
+  });
 });
 $('moreBtn').onclick=()=>render(false);
 // Initial rendering is deferred until the content index is loaded, so existing files are not mislabeled as unwritten.
@@ -705,9 +712,14 @@ let TOTAL=614;
 let _contentP=null,_planP=null;
 function loadScript(src){return new Promise((res,rej)=>{const s=document.createElement('script');s.src=src;s.onload=res;s.onerror=()=>rej(new Error('تعذّر تحميل '+src));document.head.appendChild(s)})}
 function ensureContent(){
-  if(window.CONTENT){LIB=window.CONTENT;TOTAL=window.CONTENT_TOTAL||LIB.length;contentIndexState='loaded';return Promise.resolve(LIB)}
-  if(!_contentP)_contentP=loadScript('content.js').then(()=>{
-    LIB=window.CONTENT||[];TOTAL=window.CONTENT_TOTAL||LIB.length;contentIndexState='loaded';return LIB;
+  if(window.CONTENT){
+    LIB=window.CONTENT;TOTAL=window.CONTENT_TOTAL||LIB.length;
+    _cset=null;contentIndexState='loaded';return Promise.resolve(LIB);
+  }
+  if(!_contentP)_contentP=loadScript('content.js?v=20261110-2').then(()=>{
+    if(!Array.isArray(window.CONTENT))throw new Error('فهرس المحتوى لم يُنشأ بعد التحميل');
+    LIB=window.CONTENT;TOTAL=window.CONTENT_TOTAL||LIB.length;
+    _cset=null;contentIndexState='loaded';return LIB;
   }).catch(err=>{contentIndexState='error';throw err});
   return _contentP;
 }

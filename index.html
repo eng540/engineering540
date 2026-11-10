@@ -682,6 +682,8 @@ function card(t){
         ? `<button class="lread" onclick="event.stopPropagation();openLib('${t.id}')">📖 عرض المحتوى الكامل</button><span class="cnote">المحتوى متاح — الاعتماد غير مثبت</span>`
         : hasContent(t.id)===false
           ? `<span class="cnote nowrite">لم يُدرج ملف محتوى لهذا الموضوع بعد</span>`
+          : contentIndexState==='error'
+          ? `<span class="cnote nowrite">تعذّر التحقق من فهرس المحتوى — أعد المحاولة</span>`
           : `<span class="cnote nowrite">جارٍ التحقق من توفر المحتوى</span>`}</div>
     </div></div>`;
 }

@@ -653,9 +653,10 @@ function filtered(){
 }
 function priCls(p){return p.startsWith('1')?'p1':''}
 let _cset=null;
+let contentIndexState='loading';
 function hasContent(id){
-  if(!window.CONTENT)return false;
-  if(!_cset)_cset=new Set(window.CONTENT.map(x=>x.id));
+  if(contentIndexState!=='loaded')return null;
+  if(!_cset)_cset=new Set((window.CONTENT||[]).map(x=>x.id));
   return _cset.has(id);
 }
 function card(t){
@@ -676,9 +677,11 @@ function card(t){
       <b>الزاوية:</b> ${t.ang} · <b>المنصات:</b> ${t.plat}<br>
       <b>المصادر المطلوبة:</b> ${t.src}<br>
       <b>الفرصة التجارية:</b> ${t.com}
-      <div class="cactions">${hasContent(t.id)
-        ? `<button class="lread" onclick="event.stopPropagation();openLib('${t.id}')">📖 عرض المحتوى الكامل</button><span class="cnote">ملف موجود — الاعتماد غير مثبت</span>`
-        : `<span class="cnote nowrite">✍️ المحتوى قيد الكتابة</span>`}</div>
+      <div class="cactions">${hasContent(t.id)===true
+        ? `<button class="lread" onclick="event.stopPropagation();openLib('${t.id}')">📖 عرض المحتوى الكامل</button><span class="cnote">المحتوى متاح — الاعتماد غير مثبت</span>`
+        : hasContent(t.id)===false
+          ? `<span class="cnote nowrite">لم يُدرج ملف محتوى لهذا الموضوع بعد</span>`
+          : `<span class="cnote nowrite">جارٍ التحقق من توفر المحتوى</span>`}</div>
     </div></div>`;
 }
 function render(reset){
@@ -694,7 +697,7 @@ function render(reset){
   $(id).addEventListener(id==='q'?'input':'change',()=>render(true));
 });
 $('moreBtn').onclick=()=>render(false);
-render(true);
+// Initial rendering is deferred until the content index is loaded, so existing files are not mislabeled as unwritten.
 
 /* ===== التحميل الذكي للفهارس (توفير ~110KB في التحميل الأول) ===== */
 let LIB=[];
@@ -702,10 +705,18 @@ let TOTAL=614;
 let _contentP=null,_planP=null;
 function loadScript(src){return new Promise((res,rej)=>{const s=document.createElement('script');s.src=src;s.onload=res;s.onerror=()=>rej(new Error('تعذّر تحميل '+src));document.head.appendChild(s)})}
 function ensureContent(){
-  if(window.CONTENT){LIB=window.CONTENT;TOTAL=window.CONTENT_TOTAL||LIB.length;return Promise.resolve(LIB)}
-  if(!_contentP)_contentP=loadScript('content.js').then(()=>{LIB=window.CONTENT||[];TOTAL=window.CONTENT_TOTAL||LIB.length;return LIB});
+  if(window.CONTENT){LIB=window.CONTENT;TOTAL=window.CONTENT_TOTAL||LIB.length;contentIndexState='loaded';return Promise.resolve(LIB)}
+  if(!_contentP)_contentP=loadScript('content.js').then(()=>{
+    LIB=window.CONTENT||[];TOTAL=window.CONTENT_TOTAL||LIB.length;contentIndexState='loaded';return LIB;
+  }).catch(err=>{contentIndexState='error';throw err});
   return _contentP;
 }
+// Load the index before rendering topic cards: otherwise the synchronous availability
+// check runs before the lazy-loaded CONTENT index exists and falsely shows "under writing".
+ensureContent().then(()=>render(true)).catch(()=>{
+  contentIndexState='error';
+  render(true);
+});
 function ensurePlan(){
   if(window.PLAN)return Promise.resolve(window.PLAN);
   if(!_planP)_planP=loadScript('plan.js');

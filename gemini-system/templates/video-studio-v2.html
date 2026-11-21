@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ENG540 v2.0 — استوديو الفيديو السينمائي التفاعلي للمنظومة الهندسية والعقارية السعودية</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root { color-scheme: dark; }
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Cairo', sans-serif; }
+body {
+  background:#040d1a; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  height:100vh; width:100vw; overflow:hidden; color:#ffffff;
+}
+#stageArea {
+  flex:1; width:100%; display:flex; align-items:center; justify-content:center;
+  overflow:hidden; position:relative;
+  background: radial-gradient(circle at 50% 30%, #0d2840 0%, #040d1a 75%);
+}
+#wrap {
+  position:relative; overflow:hidden;
+  box-shadow: 0 0 80px rgba(0,0,0,.95);
+  border: 1px solid rgba(212, 175, 82, 0.3);
+}
+body.mode-vertical #wrap {
+  width: min(100vw, calc((100vh - 58px) * 0.5625));
+  height: min(calc(100vw * 1.7778), calc(100vh - 58px));
+}
+body.mode-horizontal #wrap {
+  width: min(100vw, calc((100vh - 58px) * 1.7778));
+  height: min(calc(100vw * 0.5625), calc(100vh - 58px));
+}
+#masterCanvas { width:100%; height:100%; display:block; cursor:pointer; }
+#quickNav {
+  position:absolute; top:10px; left:50%; transform:translateX(-50%);
+  display:flex; gap:6px; z-index:30; background:rgba(5, 16, 28, 0.85);
+  padding:5px 10px; border-radius:999px; border:1px solid rgba(245, 208, 102, 0.35);
+}
+.q-pill {
+  background:rgba(16, 45, 66, 0.9); color:#cbd5e1; border:1px solid rgba(255,255,255,0.12);
+  border-radius:999px; padding:3px 10px; font-size:11.5px; font-weight:800; cursor:pointer; white-space:nowrap;
+}
+.q-pill:hover, .q-pill.active {
+  background:linear-gradient(135deg, #d4af52, #b48a2e); color:#040d1a; border-color:#ffffff;
+}
+#dockedControls {
+  height:56px; width:100%; background:#05111d; border-top:1.5px solid rgba(226,184,75,.45);
+  display:flex; align-items:center; justify-content:center; gap:8px; padding:0 14px; z-index:200; flex-wrap:wrap;
+}
+.ctrl-btn {
+  background:linear-gradient(135deg, #164e63, #0c2536); color:#f8fafc;
+  border:1px solid rgba(226,184,75,.55); font-size:12px; font-weight:800;
+  padding:5px 12px; border-radius:18px; cursor:pointer; white-space:nowrap;
+}
+.ctrl-btn:hover, .ctrl-btn.active {
+  background:linear-gradient(135deg, #28b894, #115e4b); border-color:#ffe484; color:#ffffff;
+}
+.ctrl-btn.rec-btn { background:linear-gradient(135deg, #e11d48, #9f1239); border-color:#fda4af; }
+.ctrl-scrubber { width:140px; accent-color:#e2b84b; cursor:pointer; }
+.ctrl-time { font-size:12px; font-weight:800; color:#ffe484; min-width:78px; text-align:center; direction:ltr; }
+</style>
+</head>
+<body class="mode-vertical">
+
+<div id="stageArea">
+  <div id="quickNav">
+    <button class="q-pill active" onclick="jumpToScene(0)">0. الخريطة الكاملة</button>
+    <button class="q-pill" onclick="jumpToScene(1)">1. مسار التراخيص والبلدية</button>
+    <button class="q-pill" onclick="jumpToScene(2)">2. مسار الملكية والتداول</button>
+    <button class="q-pill" onclick="jumpToScene(3)">3. مسار التنظيم والفرز</button>
+    <button class="q-pill" onclick="jumpToScene(4)">4. المرجعيات والاعتماد</button>
+    <button class="q-pill" onclick="jumpToScene(5)">5. القاعدة الذهبية</button>
+  </div>
+  <div id="wrap">
+    <canvas id="masterCanvas" width="1080" height="1920"></canvas>
+  </div>
+</div>
+
+<div id="dockedControls">
+  <button class="ctrl-btn active" id="playPauseBtn" onclick="togglePlay()">⏸ إيقاف مؤقت</button>
+  <button class="ctrl-btn" id="speedBtn" onclick="cycleSpeed()">⚡ السرعة: 1x (42 ثانية)</button>
+  <button class="ctrl-btn" id="layoutBtn" onclick="toggleLayoutMode()">🖥 الأبعاد: ريلز 9:16 ⇄ يوتيوب 16:9</button>
+  <input type="range" id="scrubber" class="ctrl-scrubber" min="0" max="42000" step="100" value="0" oninput="onScrub(this.value)">
+  <span class="ctrl-time" id="timeLabel">00:00 / 00:42</span>
+  <button class="ctrl-btn active" id="sfxBtn" onclick="toggleSfx()">🔔 نغمات الانتقال</button>
+  <button class="ctrl-btn" id="voiceBtn" onclick="toggleVoice()">🔊 التعليق الصوتي الآلي</button>
+  <button class="ctrl-btn rec-btn" id="recBtn" onclick="toggleVideoRecording()">🎥 تصدير فيديو (WebM/MP4)</button>
+</div>
+
+<script>
+const TOTAL_MS = 42000;
+const SCENES = [
+  {
+    id: 0, start: 0, end: 6500,
+    badge: "خريطة المنظومة الرقمية السعودية",
+    title: "تائه بين المنصات الحكومية لعقارك؟",
+    subtitle: "هكذا تتكامل 12 جهة ومنصة في 4 مسارات واضحة بدون تعارض!",
+    themeColor: "#f5d066",
+    tts: "تائه بين المنصات الحكومية لإنجاز معاملات عقارك؟ إليك الخريطة الموثقة التي تقسم اثني عشر مكوناً حكومياً ومهنياً إلى أربعة مسارات واضحة تحميك من التعطل.",
+    takeaway: "✨ المفتاح الذهبي: ميّز دائماً بين «ما تفوّض فيه المكتب الهندسي» و«ما تباشره بنفسك كمالك»!",
+    cards: [
+      { num: "01", title: "مسار التراخيص والبلدية", role: "منصة بلدي • مركز إتمام • بوابة سلامة", tag: "بتفويض المكتب الهندسي", col: "#28b894" },
+      { num: "02", title: "مسار الملكية والتداول", role: "منصة ناجز • البورصة العقارية • السجل العقاري", tag: "يباشره المالك مباشرة", col: "#f5d066" },
+      { num: "03", title: "مسار التنظيم والفرز والتملك", role: "فرز الوحدات • منصة إحكام • هيئة العقار", tag: "تكامل تنظيمي ومساحي", col: "#38bdf8" },
+      { num: "04", title: "مسار المرجعيات والاعتماد", role: "هيئة المهندسين • هيئة المساحة • المكتب الهندسي", tag: "ضمان الدقة والأمان", col: "#a78bfa" }
+    ]
+  },
+  {
+    id: 1, start: 6500, end: 14000,
+    badge: "المسار الأول : التراخيص والبلدية والسلامة",
+    title: "1. منصات يفوّض فيها المالكُ «المكتب الهندسي»",
+    subtitle: "لا تتحرك رخصة البناء أو شهادة الإشغال أو السلامة إلا عبرها",
+    themeColor: "#28b894",
+    tts: "المسار الأول: منصات التراخيص والبلدية والسلامة؛ وتشمل منصة بلدي لإصدار القرارات المساحية ورخص البناء وشهادات الإشغال، ومركز إتمام للمطورين، وبوابة سلامة للدفاع المدني.",
+    takeaway: "📋 خطوة البداية: ادخل حسابك في «بلدي» وفوّض المكتب الهندسي المصنّف ليبدأ بالقرار المساحي أولاً!",
+    cards: [
+      { num: "01", title: "منصة بلدي (وزارة البلديات)", role: "إصدار القرار المساحي، رخصة البناء والترميم والتسوير، وتقارير الإشراف حتى شهادة الإشغال.", tag: "منصة رقمية تنفيذية", col: "#28b894" },
+      { num: "02", title: "مركز إتمام (خدمات المطورين)", role: "تأهيل المطورين العقاريين واعتماد مخططات تقسيمات الأراضي الكبرى وتنسيق البنية التحتية.", tag: "مركز خدمات المطورين", col: "#f5d066" },
+      { num: "03", title: "بوابة سلامة (الدفاع المدني)", role: "اعتماد مخططات وتقارير الوقاية من الحريق وإصدار تراخيص السلامة للمباني التجارية والعمائر.", tag: "بوابة خدمة إلكترونية", col: "#f43f5e" }
+    ]
+  },
+  {
+    id: 2, start: 14000, end: 21500,
+    badge: "المسار الثاني : الملكية والتوثيق والتداول",
+    title: "2. منصات يباشرها «المالك والمستثمر» مباشرة",
+    subtitle: "توثيق الصكوك والإفراغ العقاري والتسجيل العيني دون وسيط",
+    themeColor: "#f5d066",
+    tts: "المسار الثاني: منصات الملكية والتوثيق والتداول؛ ويباشرها المالك مباشرة عبر منصة ناجز للوكالات وتحديث الصكوك، والبورصة العقارية للإفراغ الفوري، والسجل العقاري للتسجيل العيني.",
+    takeaway: "⚡ انتبه: البيع والإفراغ والرهن في «البورصة العقارية» يتم من جوالك مباشرة ولا يمر عبر المكتب الهندسي!",
+    cards: [
+      { num: "04", title: "منصة ناجز (وزارة العدل)", role: "إصدار الوكالات، التوثيق العدلي، وتحديث الصكوك الورقية القديمة إلى صكوك إلكترونية.", tag: "منصة عدلية مباشرة", col: "#f5d066" },
+      { num: "05", title: "البورصة العقارية (التداول)", role: "الإفراغ العقاري الفوري، البيع والشراء، وعمليات الرهن وفك الرهن الإلكتروني مباشرة.", tag: "منصة تداول مباشر", col: "#28b894" },
+      { num: "06", title: "السجل العقاري (RER)", role: "التسجيل العيني الأول للعقارات في الأحياء المعلنة وإصدار «رقم عقار» وصحيفة عقارية قطعية.", tag: "منصة تسجيل عيني", col: "#38bdf8" }
+    ]
+  },
+  {
+    id: 3, start: 21500, end: 29000,
+    badge: "المسار الثالث : التنظيم والفرز وطلبات التملك",
+    title: "3. منصات تعظيم قيمة العقار وتثبيت الملكيات",
+    subtitle: "هنا يلتقي تنظيم الهيئة العامة للعقار بالرفع المساحي الهندسي",
+    themeColor: "#38bdf8",
+    tts: "المسار الثالث: منصات التنظيم والفرز والتملك؛ حيث تشرف الهيئة العامة للعقار على السوق، وتفرز الشقق والأدوار لصكوك مستقلة، بينما تستقبل منصة إحكام كروكيات المكاتب المعتمدة لطلبات التملك.",
+    takeaway: "🏢 قاعدة الاستثمار: فرز العمارة إلى صك لكل شقة يبدأ بتصميم المواقف والمداخل وفق اشتراطات الفرز منذ المخطط!",
+    cards: [
+      { num: "07", title: "الهيئة العامة للعقار (REGA)", role: "المرجعية التنظيمية للقطاع العقاري، وتشرف على السجل العقاري، وافي، ملاك، وفرز الوحدات.", tag: "جهة تنظيمية عليا", col: "#f5d066" },
+      { num: "08", title: "خدمة فرز الوحدات العقارية", role: "تقسيم المبنى إلى شقق أو أدوار مستقلة برفع مساحي من مكتب معتمد وإرسال المحاضر لكتابة العدل.", tag: "خدمة تابعة لـ REGA", col: "#28b894" },
+      { num: "09", title: "منصة إحكام (عقارات الدولة)", role: "دراسة طلبات تملك العقارات وتعديل صكوك الاستحكام بموجب كروكي إحداثيات من مكتب هندسي مدرج.", tag: "أمانة لجان التملك", col: "#38bdf8" }
+    ]
+  },
+  {
+    id: 4, start: 29000, end: 36500,
+    badge: "المسار الرابع : المرجعيات الفنية والمهنية",
+    title: "4. المثلث الفني الذي يضمن دقة وأمان مشروعك",
+    subtitle: "اعتماد المهندسين + مرجعية الإحداثيات الفضائية + المكتب الهندسي",
+    themeColor: "#a78bfa",
+    tts: "المسار الرابع: المرجعيات الفنية والمهنية؛ فالهيئة السعودية للمهندسين ترخص المكاتب والكوادر، وهيئة المساحة جيوسا تضبط الشبكة الجيوديسية للإحداثيات، لينفذ المكتب الهندسي أعمالك بدقة.",
+    takeaway: "🛰️ توضيح مهم: هيئة المساحة (GEOSA) تضبط معايير الإحداثيات الوطنية، لكن معاملات الرخص تُرفع في «بلدي»!",
+    cards: [
+      { num: "10", title: "الهيئة السعودية للمهندسين (SCE)", role: "ترخيص المكاتب والشركات الهندسية والتصنيف المهني للمهندسين كشرط لتفعيلهم في المنصات.", tag: "جهة تنظيمية مهنية", col: "#f5d066" },
+      { num: "11", title: "هيئة المساحة والجيومكانية (GEOSA)", role: "إدارة الشبكة الجيوديسية الوطنية وضبط المرجع المكاني لأجهزة الـ GPS في الرفوعات المساحية.", tag: "مرجعية جيومكانية وطنية", col: "#38bdf8" },
+      { num: "12", title: "المكتب الهندسي المعتمد", role: "الذراع الفني المرخّص الذي يفوضه المالك لإعداد المخططات، الرفع المساحي، تقارير السلامة، والفرز.", tag: "طرف مهني مشارك", col: "#28b894" }
+    ]
+  },
+  {
+    id: 5, start: 36500, end: 42000,
+    badge: "الخلاصة التنفيذية : كيف تبدأ معاملتك صح؟",
+    title: "ترتيب تسليم الراية من الأرض الخام حتى الفرز",
+    subtitle: "احفظ هذه المعادلة التسلسلية لتختصر أشهر المراجعات",
+    themeColor: "#f5d066",
+    tts: "الخلاصة التنفيذية: ابدأ بتحديث الصك في ناجز أو السجل العقاري، ثم أصدر القرار المساحي ورخصة البناء وشهادة الإشغال عبر بلدي، لتختم بفرز الوحدات والتداول في البورصة العقارية.",
+    takeaway: "📲 للاستشارات الهندسية وإدارة المعاملات البلدية والمساحية: م. عبدالمجيد الفقيه |[رقم التواصل محذوف]",
+    cards: [
+      { num: "أولاً", title: "تثبيت الملكية (ناجز ◄ السجل العقاري)", role: "تأكد من أن صكك إلكتروني مكتمل الأطوال والمساحة ومربوط بالإحداثيات المكانية.", tag: "الخطوة التأسيسية 1", col: "#f5d066" },
+      { num: "ثانياً", title: "التراخيص والبناء (بلدي ◄ سلامة)", role: "فوّض المكتب الهندسي لإصدار القرار المساحي ورخصة البناء وتوثيق الإشراف حتى شهادة الإشغال.", tag: "الخطوة الهندسية 2", col: "#28b894" },
+      { num: "ثالثاً", title: "الفرز والاستثمار (فرز ◄ البورصة العقارية)", role: "افرز الوحدات لصكوك مستقلة عبر برنامج الفرز ثم ابدأ البيع والإفراغ الفوري في البورصة العقارية.", tag: "الخطوة الاستثمارية 3", col: "#38bdf8" }
+    ]
+  }
+];
+
+let currentMs = 0, isPlaying = true, playbackSpeed = 1.0, lastTick = performance.now();
+let sfxEnabled = true, voiceEnabled = false, lastSceneId = -1, audioCtx = null;
+let mediaRecorder = null, recordedChunks = [], isRecording = false;
+
+const canvas = document.getElementById('masterCanvas');
+const ctx = canvas.getContext('2d');
+
+const STARS = Array.from({ length: 65 }, (_, i) => ({
+  x: (Math.sin(i * 45.23) * 0.5 + 0.5),
+  y: (Math.cos(i * 91.17) * 0.5 + 0.5),
+  r: 1.2 + (i % 3) * 0.9,
+  spd: 0.015 + (i % 5) * 0.008,
+  col: i % 2 === 0 ? '#f5d066' : '#28b894'
+}));
+
+function playChime(freq = 587.33) {
+  if (!sfxEnabled) return;
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    const now = audioCtx.currentTime;
+    const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(freq, now);
+    osc.frequency.exponentialRampToValueAtTime(freq * 1.25, now + 0.18);
+    gain.gain.setValueAtTime(0.001, now);
+    gain.gain.linearRampToValueAtTime(0.08, now + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.0005, now + 0.45);
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    osc.start(now); osc.stop(now + 0.48);
+  } catch (e) {}
+}
+
+function speakArabic(text) {
+  if (!voiceEnabled || !window.speechSynthesis) return;
+  try {
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'ar-SA'; u.rate = 1.02;
+    window.speechSynthesis.speak(u);
+  } catch (e) {}
+}
+
+function drawRoundedRect(ctx, x, y, w, h, r, fill, stroke, lineWidth = 2) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y); ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+  if (fill) { ctx.fillStyle = fill; ctx.fill(); }
+  if (stroke) { ctx.strokeStyle = stroke; ctx.lineWidth = lineWidth; ctx.stroke(); }
+}
+
+function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+  const words = text.split(' ');
+  let line = '', curY = y;
+  for (let n = 0; n < words.length; n++) {
+    const testLine = line + words[n] + ' ';
+    if (ctx.measureText(testLine).width > maxWidth && n > 0) {
+      ctx.fillText(line.trim(), x, curY);
+      line = words[n] + ' '; curY += lineHeight;
+    } else { line = testLine; }
+  }
+  ctx.fillText(line.trim(), x, curY);
+  return curY + lineHeight;
+}
+
+function renderFrame(ms) {
+  const isHoriz = document.body.classList.contains('mode-horizontal');
+  const W = isHoriz ? 1920 : 1080, H = isHoriz ? 1080 : 1920;
+  if (canvas.width !== W || canvas.height !== H) { canvas.width = W; canvas.height = H; }
+
+  const sec = ms / 1000;
+  const scene = SCENES.find(s => ms >= s.start && ms < s.end) || SCENES[0];
+  const localMs = ms - scene.start;
+
+  if (scene.id !== lastSceneId) {
+    lastSceneId = scene.id;
+    playChime(440 + scene.id * 55);
+    speakArabic(scene.tts);
+    document.querySelectorAll('.q-pill').forEach((el, idx) => el.classList.toggle('active', idx === scene.id));
+  }
+
+  const grad = ctx.createRadialGradient(W * 0.5, H * 0.32, 50, W * 0.5, H * 0.5, Math.max(W, H) * 0.75);
+  grad.addColorStop(0, '#11324d'); grad.addColorStop(0.55, '#071626'); grad.addColorStop(1, '#030912');
+  ctx.fillStyle = grad; ctx.fillRect(0, 0, W, H);
+
+  ctx.strokeStyle = 'rgba(245, 208, 102, 0.04)'; ctx.lineWidth = 1;
+  for (let gx = 0; gx < W; gx += 80) { ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, H); ctx.stroke(); }
+  for (let gy = 0; gy < H; gy += 80) { ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(W, gy); ctx.stroke(); }
+
+  STARS.forEach(st => {
+    const sx = (st.x * W + sec * 25 * st.spd * 60) % W;
+    const sy = ((st.y * H - sec * 18 * st.spd * 60) % H + H) % H;
+    ctx.fillStyle = st.col; ctx.globalAlpha = 0.55;
+    ctx.beginPath(); ctx.arc(sx, sy, st.r, 0, Math.PI * 2); ctx.fill();
+  });
+  ctx.globalAlpha = 1;
+
+  const padX = isHoriz ? 70 : 48, topY = isHoriz ? 58 : 78;
+  drawRoundedRect(ctx, W - padX - 310, topY, 310, 56, 28, 'rgba(14, 40, 60, 0.95)', '#d4af52', 2.5);
+  ctx.fillStyle = '#ffffff'; ctx.font = '900 23px Cairo'; ctx.textAlign = 'center';
+  ctx.fillText('إبداعات هندسية | ENG540', W - padX - 155, topY + 37);
+
+  drawRoundedRect(ctx, padX, topY, 430, 56, 28, 'rgba(16, 52, 68, 0.95)', scene.themeColor, 2.5);
+  ctx.fillStyle = scene.themeColor; ctx.font = '800 21px Cairo';
+  ctx.fillText(scene.badge, padX + 215, topY + 37);
+
+  ctx.fillStyle = '#ffffff'; ctx.font = isHoriz ? '900 44px Cairo' : '900 46px Cairo'; ctx.textAlign = 'center';
+  let titleY = topY + (isHoriz ? 115 : 135);
+  titleY = wrapText(ctx, scene.title, W / 2, titleY, W - padX * 2, isHoriz ? 60 : 66);
+
+  ctx.fillStyle = '#ffe484'; ctx.font = isHoriz ? '700 25px Cairo' : '700 28px Cairo';
+  titleY = wrapText(ctx, scene.subtitle, W / 2, titleY + 6, W - padX * 2, 44);
+
+  const hubCx = isHoriz ? W * 0.25 : W * 0.5, hubCy = isHoriz ? H * 0.54 : titleY + 170, hubR = isHoriz ? 135 : 115;
+  ctx.save(); ctx.translate(hubCx, hubCy);
+  ctx.strokeStyle = 'rgba(40, 184, 148, 0.35)'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.arc(0, 0, hubR * 1.35, 0, Math.PI * 2); ctx.stroke();
+  ctx.rotate(sec * 0.7); ctx.strokeStyle = scene.themeColor; ctx.lineWidth = 4;
+  ctx.beginPath(); ctx.arc(0, 0, hubR * 1.18, 0, 1.3); ctx.stroke();
+  ctx.beginPath(); ctx.arc(0, 0, hubR * 1.18, Math.PI, Math.PI + 1.3); ctx.stroke();
+  ctx.restore();
+
+  drawRoundedRect(ctx, hubCx - hubR, hubCy - hubR * 0.62, hubR * 2, hubR * 1.24, 26, '#0a2236', '#f5d066', 3);
+  ctx.fillStyle = '#f5d066'; ctx.font = '900 22px Cairo'; ctx.textAlign = 'center';
+  ctx.fillText('المكتب الهندسي', hubCx, hubCy - 10);
+  ctx.fillStyle = '#ffffff'; ctx.font = '800 18px Cairo';
+  ctx.fillText('والمالك / المستثمر', hubCx, hubCy + 22);
+  ctx.fillStyle = '#6ee7b7'; ctx.font = '700 15px Cairo';
+  ctx.fillText(`المشهد ${scene.id + 1} من 6`, hubCx, hubCy + 50);
+
+  const cards = scene.cards;
+  const cardsStartX = isHoriz ? W * 0.46 : padX, cardsWidth = isHoriz ? W * 0.50 : W - padX * 2;
+  let cardsStartY = isHoriz ? topY + 185 : hubCy + hubR + 45;
+  const cardGap = isHoriz ? 20 : 24;
+  const cardH = cards.length === 4 ? (isHoriz ? 132 : 195) : (isHoriz ? 180 : 245);
+
+  cards.forEach((c, idx) => {
+    const cProg = Math.max(0, Math.min(1, (localMs - idx * 140) / 480));
+    const cEase = 1 - Math.pow(1 - cProg, 3);
+    const cy = cardsStartY + idx * (cardH + cardGap) + (1 - cEase) * 45;
+    ctx.globalAlpha = cEase;
+
+    ctx.strokeStyle = c.col; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(hubCx, hubCy + (isHoriz ? 0 : hubR * 0.62)); ctx.lineTo(cardsStartX + cardsWidth * 0.5, cy); ctx.stroke();
+
+    drawRoundedRect(ctx, cardsStartX, cy, cardsWidth, cardH, 24, 'rgba(9, 28, 46, 0.96)', c.col, 3);
+    const badgeX = cardsStartX + cardsWidth - 52, badgeY = cy + 48;
+    ctx.fillStyle = c.col; ctx.beginPath(); ctx.arc(badgeX, badgeY, 34, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#040d1a'; ctx.font = '900 22px Cairo'; ctx.textAlign = 'center';
+    ctx.fillText(c.num, badgeX, badgeY + 8);
+
+    drawRoundedRect(ctx, cardsStartX + 24, cy + 20, 235, 42, 21, 'rgba(255,255,255,0.08)', c.col, 1.5);
+    ctx.fillStyle = c.col; ctx.font = '800 17px Cairo';
+    ctx.fillText(c.tag, cardsStartX + 141, cy + 48);
+
+    ctx.fillStyle = '#ffffff'; ctx.font = '900 28px Cairo'; ctx.textAlign = 'right';
+    ctx.fillText(c.title, badgeX - 48, cy + 54);
+
+    ctx.fillStyle = '#e2e8f0'; ctx.font = '700 23px Cairo';
+    wrapText(ctx, c.role, cardsStartX + cardsWidth - 32, cy + 108, cardsWidth - 64, 38);
+    ctx.globalAlpha = 1;
+  });
+
+  const takeY = H - (isHoriz ? 168 : 225), takeH = isHoriz ? 86 : 118;
+  drawRoundedRect(ctx, padX, takeY, W - padX * 2, takeH, 22, 'rgba(14, 42, 62, 0.98)', '#f5d066', 3);
+  ctx.fillStyle = '#fef08a'; ctx.font = isHoriz ? '800 22px Cairo' : '800 24px Cairo'; ctx.textAlign = 'center';
+  wrapText(ctx, scene.takeaway, W / 2, takeY + (isHoriz ? 38 : 45), W - padX * 2 - 48, 38);
+
+  const footY = H - (isHoriz ? 68 : 88);
+  drawRoundedRect(ctx, padX, footY, W - padX * 2, isHoriz ? 52 : 64, 16, 'rgba(5, 15, 26, 0.96)', 'rgba(212, 175, 82, 0.5)', 2);
+  ctx.fillStyle = '#ffffff'; ctx.font = isHoriz ? '800 19px Cairo' : '800 21px Cairo'; ctx.textAlign = 'right';
+  ctx.fillText('م. عبدالمجيد الفقيه | مهندس مدني — صناعة الأثر لا مجرد الإنجاز', W - padX - 24, footY + (isHoriz ? 33 : 40));
+  ctx.fillStyle = '#f5d066'; ctx.textAlign = 'left';
+  ctx.fillText('@ENG540 |[رقم التواصل محذوف]', padX + 24, footY + (isHoriz ? 33 : 40));
+
+  ctx.fillStyle = '#28b894'; ctx.fillRect(0, H - 8, (ms / TOTAL_MS) * W, 8);
+}
+
+function formatTime(ms) {
+  const s = Math.floor(ms / 1000);
+  return `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
+}
+function updateUI() {
+  document.getElementById('scrubber').value = Math.floor(currentMs);
+  document.getElementById('timeLabel').textContent = `${formatTime(currentMs)} / ${formatTime(TOTAL_MS)}`;
+}
+function jumpToScene(id) { currentMs = SCENES[id].start + 10; renderFrame(currentMs); updateUI(); }
+function togglePlay() {
+  isPlaying = !isPlaying;
+  const btn = document.getElementById('playPauseBtn');
+  btn.textContent = isPlaying ? '⏸ إيقاف مؤقت' : '▶ تشغيل الفيديو';
+  btn.classList.toggle(
+'active', isPlaying);
+  lastTick = performance.now();
+}
+function cycleSpeed() {
+  const speeds = [1.0, 1.25, 1.5, 0.75];
+  playbackSpeed = speeds[(speeds.indexOf(playbackSpeed) + 1) % speeds.length];
+  document.getElementById('speedBtn').textContent = `⚡ السرعة: ${playbackSpeed}x`;
+}
+function toggleLayoutMode() {
+  document.body.classList.toggle('mode-horizontal');
+  document.body.classList.toggle('mode-vertical');
+  renderFrame(currentMs);
+}
+function onScrub(val) { currentMs = Number(val); renderFrame(currentMs); updateUI(); }
+function toggleSfx() {
+  sfxEnabled = !sfxEnabled;
+  const btn = document.getElementById('sfxBtn');
+  btn.classList.toggle('active', sfxEnabled);
+  btn.textContent = sfxEnabled ? '🔔 نغمات الانتقال' : '🔕 صامت';
+}
+function toggleVoice() {
+  voiceEnabled = !voiceEnabled;
+  const btn = document.getElementById('voiceBtn');
+  btn.classList.toggle('active', voiceEnabled);
+  btn.textContent = voiceEnabled ? '🔊 التعليق: مفعل' : '🔊 التعليق الصوتي الآلي';
+}
+function toggleVideoRecording() {
+  const btn = document.getElementById('recBtn');
+  if (isRecording && mediaRecorder && mediaRecorder.state !== 'inactive') { mediaRecorder.stop(); return; }
+  try {
+    const stream = canvas.captureStream(30);
+    const mimeType = MediaRecorder.isTypeSupported('video/webm;codecs=vp9') ? 'video/webm;codecs=vp9' : 'video/webm';
+    recordedChunks = [];
+    mediaRecorder = new MediaRecorder(stream, { mimeType, videoBitsPerSecond: 6000000 });
+    mediaRecorder.ondataavailable = e => { if (e.data && e.data.size > 0) recordedChunks.push(e.data); };
+    mediaRecorder.onstop = () => {
+      isRecording = false;
+      btn.textContent = '🎥 تصدير فيديو (WebM/MP4)';
+      const url = URL.createObjectURL(new Blob(recordedChunks, { type: mimeType }));
+      const a = document.createElement('a'); a.href = url; a.download = 'ENG540_Saudi_Platforms_Video.webm'; a.click();
+    };
+    currentMs = 0; isPlaying = true; isRecording = true;
+    btn.textContent = '⏹ جارٍ التسجيل.. اضغط للحفظ الآن';
+    mediaRecorder.start(200);
+  } catch (err) { btn.textContent = '⚠️ المتصفح لا يدعم التسجيل المباشر'; }
+}
+function loop(now) {
+  if (isPlaying) {
+    currentMs += (now - lastTick) * playbackSpeed;
+    if (currentMs >= TOTAL_MS) {
+      if (isRecording && mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
+      currentMs = currentMs % TOTAL_MS;
+    }
+    renderFrame(currentMs); updateUI();
+  }
+  lastTick = now; requestAnimationFrame(loop);
+}
+window.addEventListener('load', () => {
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(() => { renderFrame(0); lastTick = performance.now(); requestAnimationFrame(loop); });
+  } else { renderFrame(0); requestAnimationFrame(loop); }
+});
+</script>
+</body>
+</html>

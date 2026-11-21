@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>معرض التصاميم — إبداعات هندسية | Engineering 540</title>
-<meta name="description" content="معرض التصاميم البصرية لقناة إبداعات هندسية: 437 تصميماً في 57 دفعة، مصنفة بالسلاسل والقوالب والاتجاهات، مع بحث وتصفية فورية.">
+<meta name="description" content="معرض التصاميم البصرية لقناة إبداعات هندسية: 437 تصميماً في 57 دفعة، مصنفة بالسلاسل والقوالب والاتجاهات، مع بحث وتصفية فورية ونص نشر جاهز للنسخ لكل تصميم (عنوان وهوك ووصف وهاشتاقات تيك توك).">
 <meta property="og:title" content="معرض التصاميم — إبداعات هندسية">
-<meta property="og:description" content="437 تصميماً بصرياً في 57 دفعة — بحث وتصفية حسب السلسلة والقالب والاتجاه.">
+<meta property="og:description" content="437 تصميماً بصرياً في 57 دفعة — بحث وتصفية ونصوص نشر تيك توك جاهزة للنسخ لكل تصميم.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://eng540.github.io/engineering540/designs/">
 <meta name="theme-color" content="#1C2E4A">
@@ -77,6 +77,18 @@ nav.top a.cta{background:var(--orange);font-weight:800}
 .empty{text-align:center;color:var(--muted);padding:60px 18px;font-size:1em}
 .morebtn{display:block;margin:8px auto 0;background:var(--navy);color:#fff;border:0;font-family:inherit;font-weight:800;border-radius:11px;padding:11px 30px;cursor:pointer;font-size:.92em}
 .morebtn:hover{background:var(--navy2)}
+/* publish copy */
+.pubbox{margin-top:10px;background:#fff8f2;border:1px solid #f3dcc8;border-radius:12px;padding:10px 12px}
+.pubbox .ph{font-size:.82em;font-weight:800;color:var(--navy);line-height:1.75;margin:0 0 4px}
+.pubbox .pc{font-size:.78em;color:var(--txt);line-height:1.8;margin:0 0 4px}
+.pubbox .pg{font-size:.72em;color:#c05a10;font-weight:700;line-height:1.8;margin:0;direction:rtl}
+.copybtn{display:inline-flex;align-items:center;gap:6px;background:var(--navy);color:#fff;border:0;font-family:inherit;font-weight:800;font-size:.78em;border-radius:10px;padding:8px 16px;cursor:pointer;margin-top:8px}
+.copybtn:hover{background:var(--navy2)}
+.copybtn.ok{background:#0e7a5f}
+.rvnote{font-size:.72em;font-weight:800;color:#a34a00;background:#fff3e2;border:1px dashed #e0a45c;border-radius:8px;padding:5px 9px;margin:0 0 6px;line-height:1.7}
+.copybtn.rv{background:#a34a00}
+.stat.rv b{color:#e8a04c}
+.card .copybtn{padding:5px 12px;font-size:.7em;margin-top:8px}
 /* lightbox */
 .lb{position:fixed;inset:0;z-index:100;background:rgba(10,16,28,.9);display:none;align-items:center;justify-content:center;padding:22px}
 .lb.open{display:flex}
@@ -135,7 +147,7 @@ nav.top a.cta{background:var(--orange);font-weight:800}
   <div class="inner">
     <div class="badge">معرض الهوية البصرية</div>
     <h1>معرض <span class="em">التصاميم</span></h1>
-    <p class="sub">كل التصاميم البصرية المنتَجة لقناة إبداعات هندسية، مصنفة بالدفعات والسلاسل والقوالب، مع بحث وتصفية فورية.</p>
+    <p class="sub">كل التصاميم البصرية المنتَجة لقناة إبداعات هندسية، مصنفة بالدفعات والسلاسل والقوالب، مع بحث وتصفية فورية، ونص نشر لكل تصميم: عنوان وهوك ووصف وهاشتاقات بمعايير تيك توك — 328 نصاً جاهزاً للنسخ مباشرة، و109 نصوص موسومة بوضوح لأنها تتضمن إشارات نظامية أو قيماً هندسية تحتاج مراجعة قبل النشر.</p>
     <div class="stats" id="stats"></div>
   </div>
 </div>
@@ -173,6 +185,7 @@ nav.top a.cta{background:var(--orange);font-weight:800}
       <h3 id="lbTitle"></h3>
       <p class="desc" id="lbDesc"></p>
       <div class="meta" id="lbMeta"></div>
+      <div id="lbPub"></div>
       <div class="actions"><a class="open" id="lbOpen" href="#" target="_blank" rel="noopener">فتح الأصل بحجمه الكامل ↗</a></div>
     </div>
   </div>
@@ -201,10 +214,22 @@ function descOf(x){return (x.x&&x.x!==x.t)?x.x:''}
     `<div class="stat"><b>${DESIGNS.length}</b><span>تصميماً</span></div>`+
     `<div class="stat"><b>${batches.length}</b><span>دفعة</span></div>`+
     `<div class="stat"><b>${nSer}</b><span>سلاسل وتصنيفات</span></div>`+
-    `<div class="stat"><b>${nTpl}</b><span>قالباً نفسياً</span></div>`;
+    `<div class="stat"><b>${nTpl}</b><span>قالباً نفسياً</span></div>`+
+    `<div class="stat"><b>${DESIGNS.filter(x=>x.pv==='ok').length}</b><span>نص نشر جاهز للنسخ</span></div>`+
+    `<div class="stat rv"><b>${DESIGNS.filter(x=>x.pv==='rv').length}</b><span>نص يحتاج مراجعة قبل النشر</span></div>`;
 })();
 
-function hay(x){return (x.t+' '+x.x+' '+x.s+' '+x.p+' '+x.r).toLowerCase()}
+function hay(x){return (x.t+' '+x.x+' '+x.s+' '+x.p+' '+x.r+' '+x.pt+' '+x.ph+' '+x.pc+' '+x.pg).toLowerCase()}
+function pubText(x){return (x.pt?x.pt+'\n':'')+(x.ph?x.ph+'\n':'')+(x.pc?x.pc+'\n':'')+(x.pg||'')}
+function copyPub(txt,btn){
+  const done=()=>{btn.classList.add('ok');const o=btn.innerHTML;btn.innerHTML='✅ تم النسخ';setTimeout(()=>{btn.classList.remove('ok');btn.innerHTML=o},1600)};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done).catch(()=>fallbackCopy(txt,done));}
+  else fallbackCopy(txt,done);
+}
+function fallbackCopy(txt,done){
+  const ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';
+  document.body.appendChild(ta);ta.select();try{document.execCommand('copy')}catch(e){}document.body.removeChild(ta);done();
+}
 function applyFilters(){
   const q=$('q').value.trim().toLowerCase();
   const b=$('fBatch').value,s=$('fSeries').value,p=$('fTpl').value,o=$('fOrient').value;
@@ -232,7 +257,8 @@ function cardHTML(x){
   const ar=m?` style="aspect-ratio:${m[1]}/${m[2]}"`:'';
   return `<div class="card" data-i="${i}" tabindex="0">
     <img loading="lazy" decoding="async"${ar} src="${x.f}" alt="${esc(titleOf(x))}">
-    <div class="body"><h3>${esc(titleOf(x))}</h3>${d?`<p class="desc">${esc(d)}</p>`:''}<div class="tags">${tags.join('')}</div></div>
+    <div class="body"><h3>${esc(titleOf(x))}</h3>${d?`<p class="desc">${esc(d)}</p>`:''}<div class="tags">${tags.join('')}</div>
+    <button class="copybtn${x.pv==='rv'?' rv':''}" data-copy="${i}" type="button" title="نسخ عنوان النشر والهوك والوصف والهاشتاقات">📋 نسخ نص النشر</button>${x.pv==='rv'?'<div class="rvnote">⚠ يحتاج مراجعة قبل النشر</div>':''}</div>
   </div>`;
 }
 function render(reset){
@@ -285,6 +311,14 @@ function showLB(){
   if(x.d)rows.push(['الأبعاد',x.d]);
   rows.push(['الملف',x.f]);
   $('lbMeta').innerHTML=rows.map(r=>`<div class="row"><span class="k">${esc(r[0])}</span><span class="v">${esc(r[1])}</span></div>`).join('');
+  let pub='';
+  if(x.pt||x.ph||x.pc||x.pg){
+    pub=`<div class="row" style="border-bottom:0"><span class="k">عنوان النشر</span><span class="v">${esc(x.pt)}</span></div>`+
+      `<div class="pubbox">${x.pv==='rv'?'<p class="rvnote">⚠ هذا النص يتضمن إشارات نظامية أو قيماً هندسية تحتاج تحققاً قبل النشر — راجع التصميم ومصادره أولاً.</p>':''}<p class="ph">${esc(x.ph)}</p><p class="pc">${esc(x.pc)}</p><p class="pg">${esc(x.pg)}</p>`+
+      `<button class="copybtn" id="lbCopy" type="button">📋 نسخ نص النشر كاملاً</button></div>`;
+  }
+  $('lbPub').innerHTML=pub;
+  const cb=$('lbCopy');if(cb)cb.onclick=()=>copyPub(pubText(x),cb);
   $('lbOpen').href=x.f;
 }
 function closeLB(){$('lb').classList.remove('open');document.body.style.overflow='';}
@@ -299,6 +333,8 @@ document.addEventListener('keydown',e=>{
   if(e.key==='ArrowRight')$('lbPrev').click();
 });
 $('gallery').addEventListener('click',e=>{
+  const b=e.target.closest('.copybtn');
+  if(b){e.stopPropagation();const x=filtered[+b.dataset.copy];if(x)copyPub(pubText(x),b);return;}
   const c=e.target.closest('.card');if(c)openLB(+c.dataset.i);
 });
 $('gallery').addEventListener('keydown',e=>{
